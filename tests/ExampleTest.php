@@ -3,7 +3,7 @@
 namespace Hochstrasser\Wirecard\Test;
 
 use Hochstrasser\Wirecard\Client;
-use Hochstrasser\Wirecard\Adapter\Adapter;
+use Hochstrasser\Wirecard\Adapter;
 use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Request\Seamless\InitDataStorageRequest;
 

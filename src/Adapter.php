@@ -1,6 +1,6 @@
 <?php
 
-namespace Hochstrasser\Wirecard\Adapter;
+namespace Hochstrasser\Wirecard;
 
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Psr7\Response;
