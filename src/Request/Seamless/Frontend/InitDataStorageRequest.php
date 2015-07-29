@@ -1,6 +1,6 @@
 <?php
 
-namespace Hochstrasser\Wirecard\Request\Seamless;
+namespace Hochstrasser\Wirecard\Request\Seamless\Frontend;
 
 use Hochstrasser\Wirecard\Fingerprint;
 use Hochstrasser\Wirecard\Request\AbstractWirecardRequest;

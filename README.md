@@ -32,7 +32,7 @@ $client = new Client($context, Adapter::defaultAdapter());
 ### InitDataStorageRequest
 
 ``` php
-use Hochstrasser\Wirecard\Request\Seamless\InitDataStorageRequest;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
 
 $response = $client->execute(
         (new InitDataStorageRequest)

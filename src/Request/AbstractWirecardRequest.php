@@ -42,20 +42,8 @@ abstract class AbstractWirecardRequest implements WirecardRequestInterface
         return $this->getParameterBag()->get($param);
     }
 
-    protected function getParameterBag()
+    function getParameterBag()
     {
         return $this->params;
-    }
-
-    protected function getFingerprint(array $params)
-    {
-        $raw = '';
-        $parameters = array_merge($this->fingerprintParameters, ['customerId']);
-
-        foreach ($parameters as $parameter) {
-            $raw .= isset($params[$parameter]) ? $params[$parameter] : '';
-        }
-
-        return hash('sha512', $raw.$this->getContext()->getSecret());
     }
 }

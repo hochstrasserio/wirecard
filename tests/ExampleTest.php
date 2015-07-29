@@ -5,7 +5,7 @@ namespace Hochstrasser\Wirecard\Test;
 use Hochstrasser\Wirecard\Client;
 use Hochstrasser\Wirecard\Adapter;
 use Hochstrasser\Wirecard\Context;
-use Hochstrasser\Wirecard\Request\Seamless\InitDataStorageRequest;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {
