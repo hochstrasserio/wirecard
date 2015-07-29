@@ -74,6 +74,6 @@ class InitDataStorageRequest extends AbstractWirecardRequest
 
     function createResponse(\Psr\Http\Message\ResponseInterface $response)
     {
-        return WirecardResponse::fromHttpResponse($response, 'Hochstrasser\Wirecard\Model\Seamless\DataStorageInitResult');
+        return WirecardResponse::fromHttpResponse($response, 'Hochstrasser\Wirecard\Model\Seamless\Frontend\DataStorageInitResult');
     }
 }

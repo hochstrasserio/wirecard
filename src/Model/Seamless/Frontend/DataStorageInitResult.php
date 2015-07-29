@@ -1,6 +1,6 @@
 <?php
 
-namespace Hochstrasser\Wirecard\Model\Seamless;
+namespace Hochstrasser\Wirecard\Model\Seamless\Frontend;
 
 use Hochstrasser\Wirecard\Model\Model;
 
