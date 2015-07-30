@@ -31,7 +31,9 @@ $context = new Context('Your customer ID', 'Your secret', 'de');
 $client = new Client($context, Adapter::defaultAdapter());
 ```
 
-### InitDataStorageRequest
+### Seamless Frontend
+
+#### InitDataStorageRequest
 
 ``` php
 <?php
@@ -51,7 +53,7 @@ var_dump($storageId);
 var_dump($response->toObject()->getJavascriptUrl());
 ```
 
-### ReadDataStorageRequest
+#### ReadDataStorageRequest
 
 ``` php
 <?php
