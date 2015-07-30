@@ -37,10 +37,11 @@ class ReadDataStorageRequest extends AbstractWirecardRequest
             $params->put('shopId', $this->getContext()->getShopId());
         }
 
-        $params->set('requestFingerprint', Fingerprint::fromParameters($params)
+        $fingerprint = Fingerprint::fromParameters($params)
             ->setContext($this->getContext())
-            ->setFingerprintOrder(['customerId', 'shopId', 'storageId'])
-        );
+            ->setFingerprintOrder(['customerId', 'shopId', 'storageId']);
+
+        $params->set('requestFingerprint', $fingerprint);
 
         $params->validate(['customerId', 'storageId', 'requestFingerprint']);
 
@@ -58,6 +59,9 @@ class ReadDataStorageRequest extends AbstractWirecardRequest
 
     function createResponse(\Psr\Http\Message\ResponseInterface $response)
     {
-        return WirecardResponse::fromHttpResponse($response, 'Hochstrasser\Wirecard\Model\Seamless\Frontend\DataStorageReadResult');
+        return WirecardResponse::fromHttpResponse(
+            $response,
+            'Hochstrasser\Wirecard\Model\Seamless\Frontend\DataStorageReadResult'
+        );
     }
 }

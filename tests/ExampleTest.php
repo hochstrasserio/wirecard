@@ -29,13 +29,14 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
 
         $response = $client->execute($request);
 
-        $this->assertFalse($response->hasErrors());
         $params = $response->toArray();
 
+        $this->assertEmpty($response->getErrors());
         $this->assertArrayHasKey('storageId', $params);
         $this->assertArrayHasKey('javascriptUrl', $params);
 
         $model = $response->toObject();
+        $this->assertNotNull($model);
 
         $this->assertNotEmpty($model->getStorageId());
         $this->assertNotEmpty($model->getJavascriptUrl());
@@ -66,12 +67,17 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
             ->setOrderIdent(1234)
             ;
 
-        $storageId = $client->execute($initDataStorage)->toObject()->getStorageId();
+        $response = $client->execute($initDataStorage);
+        $this->assertNotNull($response->toObject());
+
+        $storageId = $response->toObject()->getStorageId();
 
         $response = $client
             ->execute(ReadDataStorageRequest::withStorageId($storageId));
 
-        $this->assertFalse($response->hasErrors());
+        $this->assertNotNull($response->toObject());
+
+        $this->assertEmpty($response->getErrors());
         $this->assertNotEmpty($response->toObject()->getStorageId());
         $this->assertCount(0, $response->toObject()->getPaymentInformation());
     }

@@ -8,15 +8,6 @@ class Fingerprint
     private $context;
     private $fingerprintOrder = [];
 
-    static function compute(Request\ParameterBag $parameters, Context $context, $fingerprintOrder)
-    {
-        $self = static::fromParameters($parameters)
-            ->setContext($context)
-            ->setFingerprintOrder($fingerprintOrder);
-
-        $parameters->set('requestFingerprint', (string) $self);
-    }
-
     static function fromParameters(Request\ParameterBag $parameters)
     {
         $self = new static;

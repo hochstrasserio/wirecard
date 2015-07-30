@@ -21,6 +21,8 @@ $ composer require hochstrasserio/wirecard
 ### Initialization
 
 ``` php
+<?php
+
 use Hochstrasser\Wirecard\Adapter;
 use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Client;
@@ -32,6 +34,8 @@ $client = new Client($context, Adapter::defaultAdapter());
 ### InitDataStorageRequest
 
 ``` php
+<?php
+
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
 
 $response = $client->execute(
@@ -40,9 +44,27 @@ $response = $client->execute(
         ->setReturnUrl('http://www.example.com')
 );
 
+$storageId = $response->toObject()->getStorageId();
+
+var_dump($response->hasErrors());
+var_dump($storageId);
+var_dump($response->toObject()->getJavascriptUrl());
+```
+
+### ReadDataStorageRequest
+
+``` php
+<?php
+
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
+
+$response = $client->execute(
+    (new ReadDataStorageRequest)->setStorageId($storageId)
+);
+
 var_dump($response->hasErrors());
 var_dump($response->toObject()->getStorageId());
-var_dump($response->toObject()->getJavascriptUrl());
+var_dump($response->toObject()->getPaymentInformation());
 ```
 
 ## Change log
