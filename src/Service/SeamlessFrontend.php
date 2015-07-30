@@ -1,6 +1,6 @@
 <?php
 
-namespace Hochstrasser\Wirecard;
+namespace Hochstrasser\Wirecard\Service;
 
 /**
  * @method initDataStorage
