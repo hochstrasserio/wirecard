@@ -6,6 +6,7 @@ use Hochstrasser\Wirecard\Client;
 use Hochstrasser\Wirecard\Adapter;
 use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,5 +55,24 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($response->hasErrors());
         $this->assertCount(1, $response->getErrors());
+    }
+
+    public function testReadRequest()
+    {
+        $client = $this->getClient();
+
+        $initDataStorage = (new InitDataStorageRequest)
+            ->setReturnUrl('http://www.example.com')
+            ->setOrderIdent(1234)
+            ;
+
+        $storageId = $client->execute($initDataStorage)->toObject()->getStorageId();
+
+        $response = $client
+            ->execute(ReadDataStorageRequest::withStorageId($storageId));
+
+        $this->assertFalse($response->hasErrors());
+        $this->assertNotEmpty($response->toObject()->getStorageId());
+        $this->assertCount(0, $response->toObject()->getPaymentInformation());
     }
 }

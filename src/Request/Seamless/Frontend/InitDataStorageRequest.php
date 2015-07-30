@@ -5,7 +5,6 @@ namespace Hochstrasser\Wirecard\Request\Seamless\Frontend;
 use Hochstrasser\Wirecard\Fingerprint;
 use Hochstrasser\Wirecard\Request\AbstractWirecardRequest;
 use Hochstrasser\Wirecard\Response\WirecardResponse;
-use Hochstrasser\Wirecard\Exception\RequiredParameterMissingException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7 as psr;
 
