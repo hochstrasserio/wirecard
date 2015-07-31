@@ -41,9 +41,7 @@ $client = new Client($context, Adapter::defaultAdapter());
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
 
 $response = $client->execute(
-        (new InitDataStorageRequest)
-        ->setOrderIdent('1234')
-        ->setReturnUrl('http://www.example.com')
+    InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
 );
 
 $storageId = $response->toObject()->getStorageId();
@@ -61,7 +59,7 @@ var_dump($response->toObject()->getJavascriptUrl());
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
 
 $response = $client->execute(
-    (new ReadDataStorageRequest)->setStorageId($storageId)
+    ReadDataStorageRequest::withStorageId($storageId)
 );
 
 var_dump($response->hasErrors());
