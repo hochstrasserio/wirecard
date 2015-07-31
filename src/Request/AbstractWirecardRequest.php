@@ -6,7 +6,8 @@ use Hochstrasser\Wirecard\Request\WirecardRequestInterface;
 use Hochstrasser\Wirecard\Request\ParameterBag;
 use Hochstrasser\Wirecard\Context;
 
-abstract class AbstractWirecardRequest implements WirecardRequestInterface
+abstract class AbstractWirecardRequest
+    implements WirecardRequestInterface, \Serializable
 {
     private $params;
     private $context;
@@ -45,5 +46,21 @@ abstract class AbstractWirecardRequest implements WirecardRequestInterface
     function getParameterBag()
     {
         return $this->params;
+    }
+
+    function serialize()
+    {
+        return serialize([
+            'context' => $this->context,
+            'params' => $this->params->all()
+        ]);
+    }
+
+    function unserialize($data)
+    {
+        $data = unserialize($data);
+
+        $this->context = $data['context'];
+        $this->params = new ParameterBag($data['params']);
     }
 }

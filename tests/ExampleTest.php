@@ -10,9 +10,14 @@ use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {
+    private function getContext()
+    {
+        return new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
+    }
+
     private function getClient()
     {
-        $context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
+        $context = $this->getContext();
         $client = new Client($context, Adapter::defaultAdapter());
 
         return $client;
@@ -74,5 +79,18 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($response->getErrors());
         $this->assertNotEmpty($response->toObject()->getStorageId());
         $this->assertCount(0, $response->toObject()->getPaymentInformation());
+    }
+
+    function testSerialize()
+    {
+        $request = InitDataStorageRequest::withOrderIdentAndReturnUrl(
+            1234,
+            'http://www.example.com'
+        );
+        $request->setContext($this->getContext());
+
+        $data = serialize($request);
+
+        $this->assertNotEmpty($data);
     }
 }

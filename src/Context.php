@@ -2,7 +2,7 @@
 
 namespace Hochstrasser\Wirecard;
 
-class Context
+class Context implements \Serializable
 {
     const PCI3 = 'pci3';
 
@@ -68,5 +68,17 @@ class Context
     function getUserAgent()
     {
         return $this->userAgent;
+    }
+
+    function serialize()
+    {
+        return serialize(get_object_vars($this));
+    }
+
+    function unserialize($data)
+    {
+        foreach (unserialize($data) as $property => $value) {
+            $this->{$property} = $value;
+        }
     }
 }

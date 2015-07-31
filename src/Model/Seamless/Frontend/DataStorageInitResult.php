@@ -7,7 +7,7 @@ use Hochstrasser\Wirecard\Model\Model;
 class DataStorageInitResult extends Model
 {
     /**
-     * Unique reference of the data storage for a consumer
+     * Unique reference to the data storage of a consumer
      *
      * @return string
      */
@@ -17,8 +17,8 @@ class DataStorageInitResult extends Model
     }
 
     /**
-     * URL to a JavaScript resource which have to be included for using the
-     * storage operations of the data storage
+     * URL to a JavaScript resource which has to be included for storing data in
+     * the data storage
      *
      * @return string
      */

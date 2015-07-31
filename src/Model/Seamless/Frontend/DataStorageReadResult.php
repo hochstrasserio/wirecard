@@ -18,11 +18,22 @@ class DataStorageReadResult extends Model
         ));
     }
 
+    /**
+     * Unique reference to the data storage of a consumer
+     *
+     * @return string
+     */
     function getStorageId()
     {
         return $this->getParam('storageId');
     }
 
+    /**
+     * Array of PaymentInformation objects, representing the sanitized data which was
+     * stored in the data storage by the user
+     *
+     * @return array
+     */
     function getPaymentInformation()
     {
         return $this->getParam('paymentInformation');
