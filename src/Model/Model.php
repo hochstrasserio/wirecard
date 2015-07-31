@@ -16,6 +16,11 @@ abstract class Model
         return new static($parameters);
     }
 
+    function toArray()
+    {
+        return $this->parameters;
+    }
+
     function getParam($param)
     {
         if (array_key_exists($param, $this->parameters)) {
