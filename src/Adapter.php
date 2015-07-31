@@ -31,9 +31,7 @@ abstract class Adapter
             fclose($stream);
             $headers = [];
 
-            $statusLine = $http_response_header[0];
-
-            preg_match('{^HTTP/([0-9\.]+) (\d+) (.+)$}', $statusLine, $matches);
+            preg_match('{^HTTP/([0-9\.]+) (\d+) (.+)$}', $http_response_header[0], $matches);
 
             $version = $matches[1];
             $status = $matches[2];
