@@ -28,10 +28,23 @@ abstract class Adapter
 
             $stream = fopen((string) $request->getUri(), 'r', false, $streamContext);
             $responseBody = stream_get_contents($stream);
-            $metadata = stream_get_meta_data($stream);
             fclose($stream);
+            $headers = [];
 
-            $response = new Response(200, [], $responseBody);
+            $statusLine = $http_response_header[0];
+
+            preg_match('{^HTTP/([0-9\.]+) (\d+) (.+)$}', $statusLine, $matches);
+
+            $version = $matches[1];
+            $status = $matches[2];
+            $reason = $matches[3];
+
+            foreach (array_slice($http_response_header, 1) as $headerLine) {
+                list($header, $value) = explode(':', $headerLine);
+                $headers[$header] = explode(';', $value);
+            }
+
+            $response = new Response($status, $headers, $responseBody, $version, $reason);
 
             return $response;
         };
