@@ -64,7 +64,10 @@ $response = $client->execute(
 
 var_dump($response->hasErrors());
 var_dump($response->toObject()->getStorageId());
-var_dump($response->toObject()->getPaymentInformation());
+
+foreach ($response->toObject()->getPaymentInformation() as $paymentInformation) {
+    var_dump($paymentInformation->getMaskedPan());
+}
 ```
 
 ## Change log
