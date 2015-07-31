@@ -24,7 +24,7 @@ If you already use a HTTP client which uses the PSR-7 standard for request and r
 
 It's a bit more work, but it frees you completely of unwanted, or even conflicting, dependencies.
 
-Each request is able to convert itself to a standard PSR-7 request message and convert any PSR-7 compliant response to an API response.
+Each request is capable of converting itself to a standard PSR-7 request message and converting any PSR-7 compliant response to an API response.
 
 ``` php
 <?php
