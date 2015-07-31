@@ -22,12 +22,10 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
     {
         $client = $this->getClient();
 
-        $request = (new InitDataStorageRequest)
-            ->setReturnUrl('http://www.example.com')
-            ->setOrderIdent(1234)
-            ;
-
-        $response = $client->execute($request);
+        $response = $client->execute(InitDataStorageRequest::withOrderIdentAndReturnUrl(
+            1234,
+            'http://www.example.com'
+        ));
 
         $params = $response->toArray();
 
@@ -47,12 +45,10 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
         $context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2a', 'de', 'qmore');
         $client = new Client($context, Adapter::defaultAdapter());
 
-        $request = (new InitDataStorageRequest)
-            ->setReturnUrl('http://www.example.com')
-            ->setOrderIdent(1234)
-            ;
-
-        $response = $client->execute($request);
+        $response = $client->execute(InitDataStorageRequest::withOrderIdentAndReturnUrl(
+            1234,
+            'http://www.example.com'
+        ));
 
         $this->assertTrue($response->hasErrors());
         $this->assertCount(1, $response->getErrors());
@@ -62,12 +58,10 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
     {
         $client = $this->getClient();
 
-        $initDataStorage = (new InitDataStorageRequest)
-            ->setReturnUrl('http://www.example.com')
-            ->setOrderIdent(1234)
-            ;
-
-        $response = $client->execute($initDataStorage);
+        $response = $client->execute(InitDataStorageRequest::withOrderIdentAndReturnUrl(
+            1234,
+            'http://www.example.com'
+        ));
         $this->assertNotNull($response->toObject());
 
         $storageId = $response->toObject()->getStorageId();
