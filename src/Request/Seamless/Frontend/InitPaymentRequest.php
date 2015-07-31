@@ -17,6 +17,11 @@ class InitPaymentRequest extends AbstractFrontendRequest
     protected $endpoint = 'https://checkout.wirecard.com/seamless/frontend/init';
     protected $resultClass = 'Hochstrasser\Wirecard\Model\Seamless\Frontend\InitPaymentResult';
 
+    static function with()
+    {
+        return new static();
+    }
+
     function createHttpRequest()
     {
         $headers = [

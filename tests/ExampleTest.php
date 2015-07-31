@@ -101,7 +101,7 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
         $client = $this->getClient();
 
         $response = $client->send(
-            (new InitPaymentRequest)
+            InitPaymentRequest::with()
             ->addParam('paymentType', PaymentType::PayPal)
             ->addParam('amount', 12.01)
             ->addParam('currency', 'EUR')
@@ -115,7 +115,6 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
             ->addParam('consumerUserAgent', 'Mozilla')
         );
 
-        var_dump($response->toArray());
-        var_dump($response->toObject()->getRedirectUrl());
+        $this->assertArrayHasKey('redirectUrl', $response->toArray());
     }
 }
