@@ -2,6 +2,9 @@
 
 namespace Hochstrasser\Wirecard\Service;
 
+use Hochstrasser\Wirecard\Client;
+use Hochstrasser\Wirecard\Context;
+
 /**
  * @method initDataStorage
  * @method readDataStorage
@@ -20,7 +23,7 @@ class SeamlessFrontend
 
     function __call($method, $arguments)
     {
-        $requestClass = 'Hochstrasser\Wirecard\Request\Seamless'.ucfirst($method).'Request';
+        $requestClass = 'Hochstrasser\Wirecard\Request\Seamless\Frontend\\'.ucfirst($method).'Request';
 
         if (!class_exists($requestClass)) {
             throw new \BadMethodCallException(sprintf('Call to undefined method "%s"', $method));
