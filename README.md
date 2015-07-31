@@ -18,6 +18,32 @@ $ composer require hochstrasserio/wirecard
 
 ## Usage
 
+### Usage with a PSR-7 enabled client
+
+If you already use a HTTP client which uses the PSR-7 standard for request and response messages, then you can avoid the provided client completely.
+
+It's a bit more work, but it frees you completely of unwanted, or even conflicting, dependencies.
+
+Each request is able to convert itself to a standard PSR-7 request message and convert any PSR-7 compliant response to an API response.
+
+``` php
+<?php
+
+use GuzzleHttp\Client;
+use Hochstrasser\Wirecard\Context;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
+
+$context = new Context('Your customer ID', 'Your secret', 'de');
+$client = new Client;
+
+$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
+    ->setContext($context);
+
+$response = $request->createResponse($client->send($request->createHttpRequest()));
+
+var_dump($response->toObject()->getStorageId());
+```
+
 ### Initialization
 
 ``` php
