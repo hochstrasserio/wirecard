@@ -7,6 +7,8 @@ use Hochstrasser\Wirecard\Adapter;
 use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitPaymentRequest;
+use Hochstrasser\Wirecard\Model\Common\PaymentType;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {
@@ -92,5 +94,28 @@ class ExampleTest extends \PHPUnit_Framework_TestCase
         $data = serialize($request);
 
         $this->assertNotEmpty($data);
+    }
+
+    function testPayment()
+    {
+        $client = $this->getClient();
+
+        $response = $client->send(
+            (new InitPaymentRequest)
+            ->addParam('paymentType', PaymentType::PayPal)
+            ->addParam('amount', 12.01)
+            ->addParam('currency', 'EUR')
+            ->addParam('orderDescription', 'Some test order')
+            ->addParam('successUrl', 'http://www.example.com')
+            ->addParam('failureUrl', 'http://www.example.com')
+            ->addParam('cancelUrl', 'http://www.example.com')
+            ->addParam('serviceUrl', 'http://www.example.com')
+            ->addParam('confirmUrl', 'http://www.example.com')
+            ->addParam('consumerIpAddress', '127.0.0.1')
+            ->addParam('consumerUserAgent', 'Mozilla')
+        );
+
+        var_dump($response->toArray());
+        var_dump($response->toObject()->getRedirectUrl());
     }
 }
