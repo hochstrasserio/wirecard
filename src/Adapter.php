@@ -26,9 +26,7 @@ abstract class Adapter
                 ]
             ]);
 
-            $stream = fopen((string) $request->getUri(), 'r', false, $streamContext);
-            $responseBody = stream_get_contents($stream);
-            fclose($stream);
+            $responseBody = file_get_contents((string) $request->getUri(), false, $streamContext);
             $headers = [];
 
             preg_match('{^HTTP/([0-9\.]+) (\d+) (.+)$}', $http_response_header[0], $matches);
@@ -46,5 +44,15 @@ abstract class Adapter
 
             return $response;
         };
+    }
+
+    static function guzzleAdapter(\GuzzleHttp\Client $client)
+    {
+        return new Adapter\GuzzleAdapter($client);
+    }
+
+    static function ivoryHttpAdapter(\Ivory\HttpAdapter\HttpAdapterInterface $adapter)
+    {
+        return new Adapter\IvoryHttpAdapter($adapter);
     }
 }
