@@ -9,6 +9,14 @@ class InitDataStorageRequest extends AbstractFrontendRequest
     protected $endpoint = 'https://checkout.wirecard.com/seamless/dataStorage/init';
     protected $resultClass = 'Hochstrasser\Wirecard\Model\Seamless\Frontend\DataStorageInitResult';
 
+    static function withOrderIdentAndReturnUrl($orderIdent, $returnUrl)
+    {
+        return (new static())
+            ->setOrderIdent($orderIdent)
+            ->setReturnUrl($returnUrl)
+            ;
+    }
+
     /**
      * Unique reference to the order of your consumer
      *
