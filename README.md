@@ -96,6 +96,18 @@ foreach ($response->toObject()->getPaymentInformation() as $paymentInformation) 
 }
 ```
 
+### Implementing your own Adapter
+
+An adapter is any simple function, which takes a PSR-7 compliant request message and converts it to a PSR-7 response.
+
+The signature would look like this:
+
+```
+function(Psr\Http\Message\RequestInterface $request): Psr\Http\Message\ResponseInterface
+```
+
+For some adapters to popular libraries, have a look at the [src/Adapter directory](src/Adapter).
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
