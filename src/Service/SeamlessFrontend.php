@@ -37,6 +37,6 @@ class SeamlessFrontend
             $request->addParam($param, $value);
         }
 
-        return $this->client->execute($request);
+        return $this->client->send($request);
     }
 }

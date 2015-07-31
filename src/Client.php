@@ -27,12 +27,12 @@ class Client
     }
 
     /**
-     * Executes the API request and returns the parsed response
+     * Sends the API request and returns the parsed response
      *
      * @param WirecardRequestInterface $request
      * @return WirecardResponseInterface
      */
-    function execute(WirecardRequestInterface $request)
+    function send(WirecardRequestInterface $request)
     {
         $adapter = $this->adapter;
 
