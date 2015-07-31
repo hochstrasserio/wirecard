@@ -7,15 +7,17 @@ use GuzzleHttp\Psr7;
 
 class WirecardResponse implements WirecardResponseInterface
 {
-    private $parameters = [];
-    private $objectClass;
+    const DEFAULT_MODEL = 'Hochstrasser\Wirecard\Model\DefaultModel';
 
-    static function fromHttpResponse(ResponseInterface $response, $objectClass)
+    private $parameters = [];
+    private $resultClass;
+
+    static function fromHttpResponse(ResponseInterface $response, $resultClass = self::DEFAULT_MODEL)
     {
         $responseParameters = Psr7\parse_query((string) $response->getBody());
 
         $wirecardResponse = new static;
-        $wirecardResponse->objectClass = $objectClass;
+        $wirecardResponse->resultClass = $resultClass;
 
         static::parseResponseParameters($wirecardResponse, $responseParameters);
 
@@ -51,12 +53,12 @@ class WirecardResponse implements WirecardResponseInterface
             return;
         }
 
-        if (null === $this->objectClass) {
+        if (null === $this->resultClass) {
             return;
         }
 
-        $class = $this->objectClass;
-        return new $class($this->parameters);
+        $class = $this->resultClass;
+        return $class::fromParameters($this->parameters);
     }
 
     function toArray()

@@ -10,12 +10,12 @@ class DataStorageReadResult extends Model
     {
         parent::__construct($parameters);
 
-        $this->parameters['paymentInformation'] = array_map(
+        $this->addParam('paymentInformation', array_map(
             function ($parameters) {
                 return new PaymentInformation($parameters);
             },
             $this->getParam('paymentInformation') ?: []
-        );
+        ));
     }
 
     function getStorageId()
