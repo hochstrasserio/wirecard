@@ -16,7 +16,7 @@ abstract class Model implements \Serializable
      *
      * @param array $parameters
      */
-    function __construct(array $parameters)
+    function __construct(array $parameters = [])
     {
         $this->parameters = $parameters;
     }
