@@ -3,6 +3,7 @@
 namespace Hochstrasser\Wirecard\Request\Seamless\Frontend;
 
 use Hochstrasser\Wirecard\Fingerprint;
+use Hochstrasser\Wirecard\Model\Common\Basket;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7;
 
@@ -20,6 +21,15 @@ class InitPaymentRequest extends AbstractFrontendRequest
     static function with()
     {
         return new static();
+    }
+
+    function setBasket(Basket $basket)
+    {
+        foreach ($basket->toArray() as $param => $value) {
+            $this->addParam($param, $value);
+        }
+
+        return $this;
     }
 
     function createHttpRequest()
