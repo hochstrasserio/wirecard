@@ -43,14 +43,15 @@ class InitPaymentRequestTest extends AbstractWirecardTest
             ->setArticleNumber('A001')
             ->setDescription('Product A1')
             ->setQuantity(1)
-            ->setUnitPrice(10)
-            ->setTax(1)
+            ->setUnitPrice(10.00)
+            ->setTax(1.00)
         );
 
         $request = InitPaymentRequest::with()
             ->addParam('paymentType', PaymentType::PayPal)
-            ->addParam('amount', 12.01)
-            ->addParam('currency', 'EUR')
+            // Todo: set amount and currency automatically with setBasket()?
+            ->addParam('amount', $basket->getAmount())
+            ->addParam('currency', $basket->getCurrency())
             ->addParam('orderDescription', 'Some test order')
             ->addParam('successUrl', 'http://www.example.com')
             ->addParam('failureUrl', 'http://www.example.com')

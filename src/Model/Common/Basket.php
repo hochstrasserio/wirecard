@@ -13,9 +13,19 @@ class Basket extends Model
         return $this->addParam('basketAmount', $amount);
     }
 
+    function getAmount()
+    {
+        return $this->getParam('basketAmount');
+    }
+
     function setCurrency($currency)
     {
         return $this->addParam('basketCurrency', $currency);
+    }
+
+    function getCurrency()
+    {
+        return $this->getParam('basketCurrency');
     }
 
     function addItem(BasketItem $item)
