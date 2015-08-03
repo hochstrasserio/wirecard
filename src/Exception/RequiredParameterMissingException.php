@@ -4,7 +4,7 @@ namespace Hochstrasser\Wirecard\Exception;
 
 class RequiredParameterMissingException extends \Exception
 {
-    static function create($param)
+    static function withParameter($param)
     {
         return new static(sprintf('Required parameter "%s" missing', $param));
     }

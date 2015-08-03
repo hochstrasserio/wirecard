@@ -23,6 +23,12 @@ class InitPaymentRequest extends AbstractFrontendRequest
         return new static();
     }
 
+    /**
+     * Adds the basket to the payment, required for some payment methods
+     *
+     * @param Basket $basket
+     * @return InitPaymentRequest
+     */
     function setBasket(Basket $basket)
     {
         foreach ($basket->toArray() as $param => $value) {

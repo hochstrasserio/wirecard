@@ -48,7 +48,7 @@ class ParameterBag
     {
         foreach ($requiredParameters as $parameter) {
             if (!$this->get($parameter)) {
-                throw RequiredParameterMissingException::create($parameter);
+                throw RequiredParameterMissingException::withParameter($parameter);
             }
         }
     }
