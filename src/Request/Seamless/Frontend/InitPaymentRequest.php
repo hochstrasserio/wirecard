@@ -25,6 +25,14 @@ class InitPaymentRequest extends AbstractFrontendRequest
         return new static();
     }
 
+    static function withBasket(Basket $basket)
+    {
+        return static::with()
+            ->setBasket($basket)
+            ->setAmount($basket->getAmount())
+            ->setCurrency($basket->getCurrency());
+    }
+
     function setPaymentType($value)
     {
         return $this->addParam('paymentType', $value);
