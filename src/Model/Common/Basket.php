@@ -70,4 +70,14 @@ class Basket extends Model
 
         return $this;
     }
+
+    /**
+     * Returns a list of added BasketItem objects
+     *
+     * @return array
+     */
+    function getItems()
+    {
+        return $this->items;
+    }
 }

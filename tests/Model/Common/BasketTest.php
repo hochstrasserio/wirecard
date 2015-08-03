@@ -57,5 +57,7 @@ class BasketTest extends \PHPUnit_Framework_Testcase
             ],
             $basket->toArray()
         );
+
+        $this->assertCount(3, $basket->getItems());
     }
 }
