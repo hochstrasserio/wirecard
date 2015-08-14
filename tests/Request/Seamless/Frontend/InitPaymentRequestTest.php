@@ -55,6 +55,7 @@ class InitPaymentRequestTest extends AbstractWirecardTest
             ->setAddress1('Musterstraße')
             ->setAddress2('2')
             ->setZipCode('1234')
+            ->setState('Lower Austria')
             ->setCity('Musterstadt')
             ->setCountry('AT')
             ->setPhone('+431231231234')

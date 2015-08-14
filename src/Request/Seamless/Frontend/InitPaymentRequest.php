@@ -11,6 +11,17 @@ use GuzzleHttp\Psr7;
 
 class InitPaymentRequest extends AbstractFrontendRequest
 {
+    /**
+     * Transaction identifier for a single, non-recurring transaction
+     */
+    const TRANSACTION_SINGLE = 'SINGLE';
+
+    /**
+     * Transaction identifier for the first transaction in a series of recurring
+     * transactions
+     */
+    const TRANSACTION_INITIAL = 'INITIAL';
+
     protected $requiredParameters = [
         'language', 'paymentType', 'amount', 'currency', 'orderDescription',
         'successUrl', 'cancelUrl', 'failureUrl', 'serviceUrl', 'requestFingerprintOrder',
@@ -165,7 +176,7 @@ class InitPaymentRequest extends AbstractFrontendRequest
 
     function setConsumerShippingInformation(ShippingInformation $info)
     {
-        foreach ($info as $param => $value) {
+        foreach ($info->toArray() as $param => $value) {
             $this->addParam($param, $value);
         }
 
@@ -174,7 +185,7 @@ class InitPaymentRequest extends AbstractFrontendRequest
 
     function setConsumerBillingInformation(BillingInformation $info)
     {
-        foreach ($info as $param => $value) {
+        foreach ($info->toArray() as $param => $value) {
             $this->addParam($param, $value);
         }
 
