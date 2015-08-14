@@ -5,8 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+An unofficial, but well made library for making payments with the [Wirecard](http://wirecard.at).
 
 ## Install
 
@@ -17,32 +16,6 @@ $ composer require hochstrasserio/wirecard
 ```
 
 ## Usage
-
-### Usage with a PSR-7 enabled client
-
-If you already use a HTTP client which uses the PSR-7 standard for request and response messages, then you can avoid the provided client completely.
-
-It's a bit more work, but it frees you completely of unwanted, or even conflicting, dependencies.
-
-Every request is capable of converting itself to a standard PSR-7 request message and converting any PSR-7 compliant response to an API response.
-
-``` php
-<?php
-
-use GuzzleHttp\Client;
-use Hochstrasser\Wirecard\Context;
-use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
-
-$context = new Context('Your customer ID', 'Your secret', 'de');
-$client = new Client;
-
-$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
-    ->setContext($context);
-
-$response = $request->createResponse($client->send($request->createHttpRequest()));
-
-var_dump($response->toObject()->getStorageId());
-```
 
 ### Initialization
 
@@ -94,6 +67,86 @@ var_dump($response->toObject()->getStorageId());
 foreach ($response->toObject()->getPaymentInformation() as $paymentInformation) {
     var_dump($paymentInformation->getMaskedPan());
 }
+```
+
+#### Making a payment with InitPaymentRequest
+
+``` php
+<?php
+
+use Hochstrasser\Wirecard\Model\Common\Basket;
+use Hochstrasser\Wirecard\Model\Common\BasketItem;
+use Hochstrasser\Wirecard\Model\Common\PaymentType;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitPaymentRequest;
+
+// Create the basket, this is optional for most payment methods, but probably
+// can be automatically created from your shop’s cart model
+
+$basket = new Basket();
+$basket->setAmount(11);
+$basket->setCurrency('EUR');
+$basket->addItem((new BasketItem)
+    ->setArticleNumber('A001')
+    ->setDescription('Product A1')
+    ->setQuantity(1)
+    ->setUnitPrice(10.00)
+    ->setTax(1.00)
+);
+$basket->addItem((new BasketItem)
+    ->setArticleNumber('SHIPPING')
+    ->setDescription('Shipping')
+    ->setQuantity(1)
+    ->setUnitPrice(5.00)
+    ->setTax(1.00)
+);
+
+$request = InitPaymentRequest::withBasket($basket)
+    // Set the payment type selected by the user in the frontend
+    ->setPaymentType(PaymentType::PayPal)
+    ->setOrderDescription('Some test order')
+    ->setSuccessUrl('http://example.com')
+    ->setFailureUrl('http://example.com')
+    ->setCancelUrl('http://example.com')
+    ->setServiceUrl('http://example.com')
+    // Your callback controller for handling the result of the payment
+    ->setConfirmUrl('http://example.com')
+    ->setConsumerUserAgent($_SERVER['HTTP_USER_AGENT'])
+    ->setConsumerIpAddress($_SERVER['REMOTE_IP'])
+    ;
+
+$result = $client->send($request);
+
+if ($response->hasErrors()) {
+    // Show errors in the UI
+}
+
+header('Location: '.$response->toObject()->getRedirectUrl());
+```
+
+### Usage with a PSR-7 enabled client
+
+If you already use a HTTP client which uses the PSR-7 standard for request and response messages, then you can avoid the provided client completely.
+
+It's a bit more work, but it frees you completely of unwanted, or even conflicting, dependencies.
+
+Every request is capable of converting itself to a standard PSR-7 request message and converting any PSR-7 compliant response to an API response.
+
+``` php
+<?php
+
+use GuzzleHttp\Client;
+use Hochstrasser\Wirecard\Context;
+use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
+
+$context = new Context('Your customer ID', 'Your secret', 'de');
+$client = new Client;
+
+$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
+    ->setContext($context);
+
+$response = $request->createResponse($client->send($request->createHttpRequest()));
+
+var_dump($response->toObject()->getStorageId());
 ```
 
 ### Implementing your own Adapter
