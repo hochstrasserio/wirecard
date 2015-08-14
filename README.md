@@ -83,7 +83,7 @@ use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitPaymentRequest;
 // can be automatically created from your shop’s cart model
 
 $basket = new Basket();
-$basket->setAmount(11);
+$basket->setAmount(17.00);
 $basket->setCurrency('EUR');
 $basket->addItem((new BasketItem)
     ->setArticleNumber('A001')
@@ -108,7 +108,8 @@ $request = InitPaymentRequest::withBasket($basket)
     ->setFailureUrl('http://example.com')
     ->setCancelUrl('http://example.com')
     ->setServiceUrl('http://example.com')
-    // Your callback controller for handling the result of the payment
+    // Your callback controller for handling the result of the payment, you will
+    // receive a POST request at this URL
     ->setConfirmUrl('http://example.com')
     ->setConsumerUserAgent($_SERVER['HTTP_USER_AGENT'])
     ->setConsumerIpAddress($_SERVER['REMOTE_IP'])
