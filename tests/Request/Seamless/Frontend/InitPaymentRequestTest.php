@@ -14,9 +14,7 @@ class InitPaymentRequestTest extends AbstractWirecardTest
 {
     public function test()
     {
-        $client = $this->getClient();
-
-        $response = $client->send(
+        $response = $this->getClient()->send(
             InitPaymentRequest::with()
             ->addParam('paymentType', PaymentType::PayPal)
             ->addParam('amount', 12.01)
@@ -39,13 +37,20 @@ class InitPaymentRequestTest extends AbstractWirecardTest
         $client = $this->getClient();
 
         $basket = new Basket();
-        $basket->setAmount(11);
+        $basket->setAmount(18);
         $basket->setCurrency('EUR');
         $basket->addItem((new BasketItem)
             ->setArticleNumber('A001')
             ->setDescription('Product A1')
             ->setQuantity(1)
             ->setUnitPrice(10.00)
+            ->setTax(2.00)
+        );
+        $basket->addItem((new BasketItem)
+            ->setArticleNumber('SHIPPING')
+            ->setDescription('Shipping')
+            ->setQuantity(1)
+            ->setUnitPrice(5.00)
             ->setTax(1.00)
         );
 
@@ -85,6 +90,8 @@ class InitPaymentRequestTest extends AbstractWirecardTest
         $request->setBasket($basket);
 
         $response = $client->send($request);
+
+        //var_dump($response->toObject()->getRedirectUrl());
 
         $this->assertArrayHasKey('redirectUrl', $response->toArray());
     }

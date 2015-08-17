@@ -8,11 +8,17 @@ use Hochstrasser\Wirecard\Context;
 
 abstract class AbstractWirecardTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @return Hochstrasser\Wirecard\Context
+     */
     protected function getContext()
     {
-        return new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
+        return new Context($_SERVER['CUSTOMER_ID'], $_SERVER['CUSTOMER_SECRET'], 'de', $_SERVER['SHOP_ID']);
     }
 
+    /**
+     * @return Hochstrasser\Wirecard\Client
+     */
     protected function getClient()
     {
         $context = $this->getContext();
