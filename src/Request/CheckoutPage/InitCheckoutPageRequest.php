@@ -8,8 +8,8 @@ class InitCheckoutPageRequest extends AbstractPaymentRequest
 {
     protected $endpoint = 'https://checkout.wirecard.com/page/init.php';
 
-    function createHttpResponse()
+    function createHttpRequest()
     {
-        throw new \Exception("Request can't be sent. Use a form instead to send this request");
+        throw new \BadMethodCallException("Request can't be sent. Use a form instead to send this request");
     }
 }
