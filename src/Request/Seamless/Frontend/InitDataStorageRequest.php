@@ -2,7 +2,9 @@
 
 namespace Hochstrasser\Wirecard\Request\Seamless\Frontend;
 
-class InitDataStorageRequest extends AbstractFrontendRequest
+use Hochstrasser\Wirecard\Request\AbstractWirecardRequest;
+
+class InitDataStorageRequest extends AbstractWirecardRequest
 {
     protected $requiredParameters = ['language', 'orderIdent', 'returnUrl'];
     protected $fingerprintOrder = ['orderIdent', 'returnUrl', 'language', 'javascriptScriptVersion'];
@@ -39,12 +41,18 @@ class InitDataStorageRequest extends AbstractFrontendRequest
         return $this->addParam('returnUrl', $returnUrl);
     }
 
-    function createHttpRequest()
+    function getRawParameters()
     {
-        $params = $this->getParameterBag();
-        $params->put('language', $this->getContext()->getLanguage());
-        $params->put('javascriptScriptVersion', $this->getContext()->getJavascriptScriptVersion());
+        $params = parent::getRawParameters();
 
-        return parent::createHttpRequest();
+        if (empty($params['language'])) {
+            $params['language'] = $this->getContext()->getLanguage();
+        }
+
+        if (empty($params['javascriptScriptVersion'])) {
+            $params['javascriptScriptVersion'] = $this->getContext()->getJavascriptScriptVersion();
+        }
+
+        return $params;
     }
 }

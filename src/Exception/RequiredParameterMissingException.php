@@ -14,9 +14,10 @@ class RequiredParameterMissingException extends \Exception
      */
     static function withParameter($param)
     {
-        $this->param = $param;
+        $self = new static(sprintf('Required parameter "%s" missing', $param));
+        $self->param = $param;
 
-        return new static(sprintf('Required parameter "%s" missing', $param));
+        return $self;
     }
 
     /**

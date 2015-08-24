@@ -29,7 +29,12 @@ abstract class Adapter
             $responseBody = file_get_contents((string) $request->getUri(), false, $streamContext);
             $headers = [];
 
-            preg_match('{^HTTP/([0-9\.]+) (\d+) (.+)$}', $http_response_header[0], $matches);
+            $statusLines = array_reverse(preg_grep('{^HTTP/([0-9\.]+) (\d+) (.+)$}', $http_response_header));
+
+            // TODO: Get offset of last header, then parse only headers which succeed
+            // that offset to get the headers of the last response after following redirects
+
+            preg_match('{^HTTP/([0-9\.]+) (\d+) (.+)$}', current($statusLines), $matches);
 
             $version = $matches[1];
             $status = $matches[2];

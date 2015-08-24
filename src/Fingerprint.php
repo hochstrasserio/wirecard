@@ -8,7 +8,7 @@ class Fingerprint
     private $context;
     private $fingerprintOrder = [];
 
-    static function fromParameters(Request\ParameterBag $parameters)
+    static function fromParameters(array $parameters)
     {
         $self = new static;
         $self->parameters = $parameters;
@@ -33,7 +33,9 @@ class Fingerprint
         $raw = '';
 
         foreach ($this->fingerprintOrder as $parameter) {
-            $raw .= $this->parameters->get($parameter);
+            if (isset($this->parameters[$parameter])) {
+                $raw .= $this->parameters[$parameter];
+            }
         }
 
         return hash('sha512', $raw.$this->context->getSecret());

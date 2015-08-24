@@ -43,13 +43,4 @@ class ParameterBag
     {
         return $this->parameters;
     }
-
-    function validate(array $requiredParameters)
-    {
-        foreach ($requiredParameters as $parameter) {
-            if (!$this->get($parameter)) {
-                throw RequiredParameterMissingException::withParameter($parameter);
-            }
-        }
-    }
 }

@@ -2,7 +2,9 @@
 
 namespace Hochstrasser\Wirecard\Request\Seamless\Frontend;
 
-class ReadDataStorageRequest extends AbstractFrontendRequest
+use Hochstrasser\Wirecard\Request\AbstractWirecardRequest;
+
+class ReadDataStorageRequest extends AbstractWirecardRequest
 {
     protected $requiredParameters = ['storageId'];
     protected $fingerprintOrder = ['storageId'];

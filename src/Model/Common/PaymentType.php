@@ -50,10 +50,10 @@ abstract class PaymentType
 
     static function isValid($paymentType)
     {
-        return in_array($paymentType, static::getConstants(), true);
+        return in_array($paymentType, static::getValues(), true);
     }
 
-    private static function getConstants()
+    static function getValues()
     {
         if (null === static::$constants) {
             static::$constants = (new \ReflectionClass(get_called_class()))->getConstants();
