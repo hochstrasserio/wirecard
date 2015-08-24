@@ -5,13 +5,20 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-An unofficial, but well made library for making payments with the [Wirecard](http://wirecard.at).
+An unofficial, but well made SDK for making payments with [Wirecard](http://wirecard.at).
 
 For general information about making payments with Wirecard in your application, see the [Wirecard Integration Wiki][Integration Wiki].
 
 You can get an account for the Integration Wiki for free by signing up on the Wiki’s signup page.
 
 [Integration Wiki]: http://integration.wirecard.at
+
+SDK Coverage:
+
+- [x] Wirecard Checkout Page
+- [x] Wirecard Seamless Checkout
+- [ ] Seamless Backend operations
+- [ ] Checkout Page Backend operations
 
 ## Install
 
