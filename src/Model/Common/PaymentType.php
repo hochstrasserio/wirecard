@@ -11,8 +11,10 @@ namespace Hochstrasser\Wirecard\Model\Common;
  *
  * @author Christoph Hochstrasser <christoph@hochstrasser.io>
  */
-interface PaymentType
+abstract class PaymentType
 {
+    private static $constants;
+
     /**
      * The consumer may select one of the activated payment methods directly in
      * Wirecard Checkout Page. Please note that SELECT is only available for
@@ -45,4 +47,18 @@ interface PaymentType
     const Trustly = 'TRUSTLY';
     const TrustPay = 'TRUSTPAY';
     const MyVoucher = 'VOUCHER';
+
+    static function isValid($paymentType)
+    {
+        return in_array($paymentType, static::getConstants(), true);
+    }
+
+    private static function getConstants()
+    {
+        if (null === static::$constants) {
+            static::$constants = (new \ReflectionClass(get_called_class()))->getConstants();
+        }
+
+        return static::$constants;
+    }
 }
