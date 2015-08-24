@@ -181,7 +181,7 @@ $request = InitCheckoutPageRequest::with()
 
 ### Wirecard Seamless Checkout
 
-With Wirecard Seamless Checkout, your customer uses your own custom page to select the payment methods you enabled for your site. How this UI looks and works is completely up to you.
+With Wirecard Seamless Checkout, your customer uses your own custom page to select the payment methods which you did enable for your site. How this UI looks and works is completely up to you.
 
 There are a couple of requests that you have to make:
 
