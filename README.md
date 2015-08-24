@@ -58,6 +58,59 @@ $client = new Client($context, Adapter::defaultAdapter());
 
 Now with a client initialized, we can start to make some payments.
 
+### SDK Patterns
+
+This SDK follows some patterns for all objects.
+
+#### Requests
+
+All requests are simple classes which implement the [WirecardRequestInterface](src/Request/WirecardRequestInterface.php) and can be constructed directly. Most classes have a specific named constructor, which starts with `with*`, e.g. `withBasket`, or `withOrderIdentAndReturnUrl`. These should be preferred over the simple constructor.
+
+Requests are passed to the client, which sets the context on the request, then the request turns itself into a PSR-7 compatible request object, which the client sends. Then a response is returned, which can be checked for errors and contains the results.
+
+```php
+<?php
+
+$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com');
+$response = $client->send($request);
+```
+
+Requests know about their required parameters. If a known required parameter is missing, then a [RequiredParameterMissingException](src/Exception/RequiredParameterMissingException.php) is thrown.
+
+#### Responses
+
+All responses implement the [WirecardResponseInterface](src/Response/WirecardResponseInterface.php).
+
+##### Getting Results
+
+Results are retrieved by using the `toObject` or `toArray` methods. The `toObject` method is usually used. This method returns a model class, which has methods to conveniently retrieve returned values. This methods are defined in the model class, so your IDE should be able to suggest them to you.
+
+The `toArray` method returns the raw response parameters returned by the request. This is useful for debugging and checking with the official documentation.
+
+```php
+<?php
+
+$a = $response->toArray();
+var_dump($a['redirectUrl']);
+
+$b = $response->toObject();
+var_dump($b->getRedirectUrl());
+```
+
+##### Errors
+
+Every response has the `hasErrors` method, which checks for any returned errors. All returned errors can be retrieved as array by using `getErrors` on the response object.
+
+```php
+<?php
+
+if ($response->hasErrors()) {
+    foreach ($response->getErrors() as $error) {
+        echo $error, "<br>";
+    }
+}
+```
+
 ### Wirecard Seamless Checkout (WCS)
 
 With Wirecard Seamless Checkout, your customer uses your own custom page to select the payment methods you enabled for your site. How this UI looks and works is completely up to you.
@@ -117,7 +170,7 @@ foreach ($response->toObject()->getPaymentInformation() as $paymentInformation) 
 
 #### Making a payment with InitPaymentRequest
 
-Response Model: [DataStorageReadResult](src/Model/Seamless/Frontend/InitPaymentResult.php)
+Response Model: [InitPaymentResult](src/Model/Seamless/Frontend/InitPaymentResult.php)
 
 Requests the payment and returns a redirect URL. Redirect your customer to this URL to finish the payment.
 
@@ -138,7 +191,7 @@ There are a lot more optional parameters for payment requests, to e.g. make recu
 
 ##### Adding a Basket
 
-The payment request uses a basket to show the customer’s products at the checkout screen of e.g. PayPal. You can also use this to easily set the amount and currency of your order. In most cases you should be able to infer the basket from your site’s own basket model.
+The payment request uses a [Basket](src/Model/Common/Basket.php) filled with [Basket Items](src/Model/Common/BasketItem.php) to show the customer’s products at the checkout screen of e.g. PayPal. You can also use this to easily set the amount and currency of your order. In most cases you should be able to infer the basket from your site’s own basket model.
 
 ``` php
 <?php
@@ -170,7 +223,10 @@ $basket->addItem((new BasketItem)
 
 ##### Adding Shipping and Billing Information
 
-Some payment types require shipping and billing information.
+[ShippingInformation]: src/Model/Common/ShippingInformation.php
+[BillingInformation]: src/Model/Common/BillingInformation.php
+
+Some payment types require shipping and billing information. The SDK provides [ShippingInformation][] and [BillingInformation][] classes to help you with that.
 
 ``` php
 <?php
@@ -191,7 +247,7 @@ $shippingInformation = (new ShippingInformation)
     ->setFax('+431231231234');
 ```
 
-If the customer’s billing information matches the shipping information, then the `BillingInformation` class provides a named constructor for convenience. Otherwise the `BillingInformation` class features the same methods as `ShippingInformation`.
+If the customer’s billing information matches the shipping information, then the [BillingInformation][] class provides a named constructor for convenience. Otherwise the [BillingInformation][] class features the same methods as [ShippingInformation][].
 
 ```php
 <?php
@@ -199,7 +255,7 @@ If the customer’s billing information matches the shipping information, then t
 $billingInformation = BillingInformation::fromShippingInformation($shippingInformation);
 ```
 
-A valid billing information requires two additional parameters: The customer’s email and their birth date:
+A valid billing information requires two additional parameters: The customer’s email and their birth date (as `\DateTime` object):
 
 ``` php
 <?php
@@ -212,7 +268,7 @@ Finally you can add the shipping and billing information to the request with the
 
 ##### Requesting the payment
 
-With our basket object in hand, we can now easily initialize the payment request:
+With our basket object in hand, we can now initialize the payment request:
 
 ``` php
 <?php
@@ -244,14 +300,19 @@ if (isset($_SESSION['dataStorageId'])) {
     $request->setStorageId($_SESSION['dataStorageId']);
 }
 
-$result = $client->send($request);
+$response = $client->send($request);
+```
+
+Using the response model, you now can redirect customers to Wirecard’s payment confirmation flow, in which they are in turn redirected to PayPal, their bank, or 3-D Secure.
+
+```php
+<?php
 
 if ($response->hasErrors()) {
     // Show errors in the UI
 }
 
-// Redirect customers so they can confirm the payment with 3-D secure, PayPal,
-// or something similar
+// Redirect if no errors happened
 header('Location: '.$response->toObject()->getRedirectUrl());
 ```
 
