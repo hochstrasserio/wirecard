@@ -84,6 +84,24 @@ $response = $client->send($request);
 
 Requests know about their required parameters. If a known required parameter is missing, then a [RequiredParameterMissingException](src/Exception/RequiredParameterMissingException.php) is thrown.
 
+Requests can also be manually converted to a PSR-7 compatible request with the
+`createHttpRequest` method. The context has to be set before. The `createResponse` method converts any PSR-7 compatible response object to WirecardResponseInterface.
+
+```php
+<?php
+
+$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com');
+$request->setContext($context);
+
+$httpRequest = $request->createHttpRequest();
+
+// Send PSR-7 request with some PSR-7 compatible HTTP client library,
+// e.g. Guzzle v6
+$httpResponse = …
+
+$response = $request->createResponse($httpResponse);
+```
+
 #### Responses
 
 All responses implement the [WirecardResponseInterface](src/Response/WirecardResponseInterface.php).
