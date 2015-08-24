@@ -8,7 +8,7 @@ use Hochstrasser\Wirecard\Model\Common\Basket;
 use Hochstrasser\Wirecard\Model\Common\BasketItem;
 use Hochstrasser\Wirecard\Request\CheckoutPage\InitCheckoutPageRequest;
 
-$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de');
+$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
 
 $basket = new Basket();
 $basket->setAmount(18);

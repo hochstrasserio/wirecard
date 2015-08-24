@@ -5,7 +5,7 @@ require __DIR__.'/../../vendor/autoload.php';
 use Hochstrasser\Wirecard\Fingerprint;
 use Hochstrasser\Wirecard\Context;
 
-$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de');
+$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
 
 $fingerprint = Fingerprint::fromResponseParameters($_POST, $context);
 $fingerprintIsValid = hash_equals((string) $fingerprint, $_POST['responseFingerprint']);
@@ -19,7 +19,7 @@ $fingerprintIsValid = hash_equals((string) $fingerprint, $_POST['responseFingerp
 <h3>Fingerprint</h3>
 
 <p>
-    Fingerprint is <?= $fingerprintIsValid ? "valid": "invalid" ?>
+    Fingerprint is <?= $fingerprintIsValid ? '<strong style="color: green;">valid</strong>' : '<strong style="color: red;">invalid</strong>' ?>
 </p>
 
 <div>Expected:</div>
