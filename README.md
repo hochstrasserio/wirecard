@@ -149,7 +149,7 @@ var_dump($response->toObject()->getJavascriptUrl());
 
 Response Model: [DataStorageReadResult](src/Model/Seamless/Frontend/DataStorageReadResult.php)
 
-Reads the data storage and returns an array of masked [customer data](src/Model/Seamless/Frontend/PaymentInformation).
+Reads the data storage and returns an array of masked [customer data](src/Model/Seamless/Frontend/PaymentInformation.php).
 
 ``` php
 <?php
