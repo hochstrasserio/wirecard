@@ -113,7 +113,7 @@ abstract class AbstractWirecardRequest
 
         $params['requestFingerprint'] = Fingerprint::fromParameters($params)
             ->setContext($this->getContext())
-            ->setFingerprintOrder(array_merge(['customerId', 'shopId'], $this->fingerprintOrder));
+            ->setFingerprintOrder(array_merge(['customerId', 'shopId'], $this->fingerprintOrder, ['secret']));
 
         $this->assertParametersAreValid($params, array_merge(['customerId', 'requestFingerprint'], $this->requiredParameters));
 

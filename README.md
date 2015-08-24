@@ -111,7 +111,50 @@ if ($response->hasErrors()) {
 }
 ```
 
-### Wirecard Seamless Checkout (WCS)
+### Wirecard Checkout Page
+
+With Wirecard Checkout Page you don’t handle the UI for selecting the payment type or storing the credit card data. The InitCheckoutPageRequest is also an exception in another way: it can’t be sent with the client, you have to use a HTML form, which has to be submitted by the customers themselves.
+
+The InitCheckoutPageRequest takes the same parameters and is initialized the same way as the InitPaymentRequest from Seamless Checkout.
+
+The only differences are:
+
+* `confirmUrl` is not required
+* `paymentType` does not have to be set in the request object, can be set in the form
+
+[Example:](example/checkout-page/index.php)
+
+```php
+<?php
+
+use Hochstrasser\Wirecard\Context;
+use Hochstrasser\Wirecard\Model\Common\PaymentType;
+use Hochstrasser\Wirecard\Request\CheckoutPage\InitCheckoutPageRequest;
+
+$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de');
+$request = InitCheckoutPageRequest::with()
+    ->setPaymentType(PaymentType::Select)
+    ->setContext($context)
+    ->setAmount(33.00)
+    ->setCurrency('EUR')
+    ->setOrderDescription("12345")
+    ->setSuccessUrl("http://localhost:8001/")
+    ->setFailureUrl("http://localhost")
+    ->setCancelUrl("http://localhost")
+    ->setServiceUrl("http://localhost")
+    ;
+?>
+
+<form action="<?= $request->getEndpoint() ?>" method="POST">
+    <?php foreach ($request->getRequestParameters() as $param => $value): ?>
+    <input type="hidden" name="<?= $param ?>" value="<?= $value ?>"/>
+    <?php endforeach ?>
+
+    <input type="submit" value="Buy"/>
+</form>
+```
+
+### Wirecard Seamless Checkout
 
 With Wirecard Seamless Checkout, your customer uses your own custom page to select the payment methods you enabled for your site. How this UI looks and works is completely up to you.
 

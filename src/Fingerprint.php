@@ -16,9 +16,26 @@ class Fingerprint
         return $self;
     }
 
+    static function fromResponseParameters(array $parameters, Context $context = null)
+    {
+        $self = static::fromParameters($parameters);
+        $self->setFingerprintOrder(explode(',', $parameters['responseFingerprintOrder']));
+
+        if (null !== $context) {
+            $self->setContext($context);
+        }
+
+        return $self;
+    }
+
     function setContext(Context $context)
     {
         $this->context = $context;
+
+        if (empty($this->parameters['secret'])) {
+            $this->parameters['secret'] = $context->getSecret();
+        }
+
         return $this;
     }
 
@@ -38,6 +55,6 @@ class Fingerprint
             }
         }
 
-        return hash('sha512', $raw.$this->context->getSecret());
+        return hash('sha512', $raw);
     }
 }
