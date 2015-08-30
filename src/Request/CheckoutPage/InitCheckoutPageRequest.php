@@ -10,6 +10,6 @@ class InitCheckoutPageRequest extends AbstractPaymentRequest
 
     function createHttpRequest()
     {
-        throw new \BadMethodCallException("Request can't be sent. Use a form instead to send this request");
+        throw new \BadMethodCallException("Request can't be sent. Use an HTML form to send this request");
     }
 }

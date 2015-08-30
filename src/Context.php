@@ -11,7 +11,7 @@ class Context implements \Serializable
     private $language;
     private $shopId;
     private $javascriptScriptVersion;
-    private $userAgent;
+    private $userAgent = 'hochstrasser/wirecard';
 
     /**
      * Constructor
@@ -23,21 +23,17 @@ class Context implements \Serializable
      * @param string $javascriptScriptVersion Version number of JavaScript, enable iFrame support by passing 'pci3'
      * @param string $userAgent API Client Identifier
      */
-    function __construct(
-        $customerId,
-        $secret,
-        $language,
-        $shopId = null,
-        $javascriptScriptVersion = null,
-        $userAgent = 'Hochstrasser/Wirecard'
-    )
+    function __construct(array $options)
     {
-        $this->customerId = $customerId;
-        $this->secret = $secret;
-        $this->language = $language;
-        $this->shopId = $shopId;
-        $this->javascriptScriptVersion = $javascriptScriptVersion;
-        $this->userAgent = $userAgent;
+        foreach ($options as $option => $value) {
+            $property = lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $option))));
+
+            if (!property_exists($this, $property)) {
+                throw new \InvalidArgumentException(sprintf('Option %s is not defined', $option));
+            }
+
+            $this->{$property} = $value;
+        }
     }
 
     function getCustomerId()

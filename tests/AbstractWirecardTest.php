@@ -13,7 +13,12 @@ abstract class AbstractWirecardTest extends \PHPUnit_Framework_TestCase
      */
     protected function getContext()
     {
-        return new Context($_SERVER['CUSTOMER_ID'], $_SERVER['CUSTOMER_SECRET'], 'de', $_SERVER['SHOP_ID']);
+        return new Context([
+            'customer_id' => $_SERVER['CUSTOMER_ID'],
+            'secret' => $_SERVER['CUSTOMER_SECRET'],
+            'language' => 'de',
+            'shop_id' => $_SERVER['SHOP_ID']
+        ]);
     }
 
     /**

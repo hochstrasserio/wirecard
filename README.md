@@ -40,17 +40,22 @@ First, configure a Wirecard *Context* with your customer ID and customer secret,
 use Hochstrasser\Wirecard\Context;
 
 // Constructor takes Customer ID, Customer Secret, Language code, and Shop ID:
-$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
+$context = new Context([
+    'customer_id' => 'D200001',
+    'secret' => 'B8AKTPWBRMNBV455FG6M2DANE99WU2',
+    'language' => 'de',
+    'shop_id' => 'qmore'
+]);
 ```
 
 The *Context* has some more options that you can pass to the constructor:
 
-1. `customerId`: Your customer ID, which you got from Wirecard or the [Integration Wiki][]
+1. `customer_id`: Your customer ID, which you got from Wirecard or the [Integration Wiki][]
 2. `secret`: Your customer secret, which you got from Wirecard or the [Integration Wiki][]. Do not share this with anyone
 3. `language`: Language of Wirecard’s UIs and error messages
-4. `shopId` (Optional): Set this if one set of credentials is used for many shops (if Wirecard tells you to)
-5. `javascriptScriptVersion` (Optional): Enable [PCI DSS SAQ A compliance features](https://integration.wirecard.at/doku.php/wcs:pci3_fallback:start)
-6. `userAgent` (Optional): Library user agent used for HTTP requests, you can optionally set this to your site’s name
+4. `shop_id` (Optional): Set this if one set of credentials is used for many shops (if Wirecard tells you to)
+5. `javascript_script_version` (Optional): Enable [PCI DSS SAQ A compliance features](https://integration.wirecard.at/doku.php/wcs:pci3_fallback:start)
+6. `user_agent` (Optional): Library user agent used for HTTP requests, you can optionally set this to your site’s name
 
 Next we’ll create the *Client*. The *Client* sends your requests to the Wirecard API, using the context:
 

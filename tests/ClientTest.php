@@ -14,7 +14,7 @@ class ExampleTest extends AbstractWirecardTest
 {
     public function testHasErrorWhenWrongSecretIsUsed()
     {
-        $context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2a', 'de', 'qmore');
+        $context = new Context(['customer_id' => 'D200001', 'secret' => 'B8AKTPWBRMNBV455FG6M2DANE99WU2a', 'language' => 'de', 'shop_id' => 'qmore']);
         $client = new Client($context, Adapter::defaultAdapter());
 
         $response = $client->send(InitDataStorageRequest::withOrderIdentAndReturnUrl(
