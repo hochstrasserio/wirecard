@@ -206,7 +206,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
         return $this;
     }
 
-    function getRawParameters()
+    protected function getRawParameters()
     {
         $params = parent::getRawParameters();
 

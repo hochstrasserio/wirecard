@@ -41,7 +41,7 @@ class InitDataStorageRequest extends AbstractWirecardRequest
         return $this->addParam('returnUrl', $returnUrl);
     }
 
-    function getRawParameters()
+    protected function getRawParameters()
     {
         $params = parent::getRawParameters();
 

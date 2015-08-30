@@ -86,12 +86,14 @@ abstract class AbstractWirecardRequest
         return $this->getParameterBag()->get($param);
     }
 
+    // TODO: Make protected
     function getParameterBag()
     {
         return $this->params;
     }
 
-    function getRawParameters()
+    // TODO: Make protected
+    protected function getRawParameters()
     {
         $params = $this->getParameterBag()->all();
         $context = $this->getContext();
