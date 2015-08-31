@@ -174,9 +174,9 @@ With Wirecard Seamless Checkout, your customer uses your own custom page to sele
 
 There are a couple of requests that you have to make:
 
-* `InitDataStorageRequest`: Usually you want not to deal with PCI compliance yourself and want Wirecard to take care of it. This request initializes a data storage, which is on Wirecard’s servers and securely stores the customer’s credit card data for you. The only way to store data is via an JavaScript library. The `InitDataStorageRequest` returns the URL for including the library after a succcessful call. This is only necessary if you are taking credit card payments and has to be made before requesting the payment.
-* Optionally, `ReadDataStorageRequest`: You can use this request to display the credit card data, which the customer entered, with all sensitive information removed. You can use this to give your customer a last look at the entered payment data before making the payment.
-* `InitPaymentRequest`: Makes the payment and returns an URL. Redirect the customer to the URL to complete the requested payment. If this was successful, your site gets a POST request by Wirecard at the Confirm URL, which contains the payment details, like the transaction number. Finally the customer is then redirected back to your site.
+1. `InitDataStorageRequest`: Usually you want not to deal with PCI compliance yourself and want Wirecard to take care of it. This request initializes a data storage, which is on Wirecard’s servers and securely stores the customer’s credit card data for you. The only way to store data is via an JavaScript library. The `InitDataStorageRequest` returns the URL for including the library after a succcessful call. This is only necessary if you are taking credit card payments and has to be made before requesting the payment.
+2. Optionally, `ReadDataStorageRequest`: You can use this request to display the credit card data, which the customer entered, with all sensitive information removed. You can use this to give your customer a last look at the entered payment data before making the payment.
+3. `InitPaymentRequest`: Makes the payment and returns an URL. Redirect the customer to the URL to complete the requested payment. If this was successful, your site gets a POST request by Wirecard at the Confirm URL, which contains the payment details, like the transaction number. Finally the customer is then redirected back to your site.
 
 #### InitDataStorageRequest
 
