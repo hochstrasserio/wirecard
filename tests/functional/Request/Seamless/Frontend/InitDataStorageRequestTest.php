@@ -10,10 +10,10 @@ class InitDataStorageRequestTest extends AbstractWirecardTest
     function test()
     {
         $client = $this->getClient();
+        $request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
+            ->setContext($this->getContext());
 
-        $response = $client->send(
-            InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
-        );
+        $response = $request->createResponse($client->send($request->createHttpRequest()));
 
         $this->assertNotNull($response->toObject());
 

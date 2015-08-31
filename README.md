@@ -5,11 +5,11 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-An unofficial, but well made SDK for making payments with [Wirecard](http://wirecard.at).
+An unofficial SDK for making payments with [Wirecard](http://wirecard.at).
 
-For general information about making payments with Wirecard in your application, see the [Wirecard Integration Wiki][Integration Wiki].
+For general information about making payments with Wirecard in your application, visit the [Wirecard Integration Wiki][Integration Wiki].
 
-You can get an account for the Integration Wiki for free by signing up on the Wiki’s signup page.
+Get an account for the Integration Wiki, by signing up on the Wiki’s signup page for free.
 
 [Integration Wiki]: http://integration.wirecard.at
 
@@ -30,9 +30,16 @@ $ composer require hochstrasserio/wirecard
 
 ## Usage
 
-### Initialization
+### Setup
 
-First, configure a Wirecard *Context* with your customer ID and customer secret, which you got from Wirecard:
+This library does not ship with functionality to send HTTP requests over the wire. You need to get a library to do this for you. Any PSR-7 compliant library will work, like [Guzzle v6+][guzzle6] or the [Ivory HTTP Adapters library][ivory].
+
+    $ composer require 'guzzlehttp/guzzle:^6.0.0'
+
+[guzzle6]: http://guzzle.readthedocs.org/en/latest/
+[ivory]: http://github.com/egeloen/ivory-http-adapter
+
+Then, configure a Wirecard *Context* with your Customer ID, Customer secret, and optionally your Shop ID. You should have received both by Wirecard. Demo or Test credentials are also available in the [Integration Wiki][].
 
 ``` php
 <?php
@@ -57,22 +64,7 @@ The *Context* has some more options that you can pass to the constructor:
 5. `javascript_script_version` (Optional): Enable [PCI DSS SAQ A compliance features](https://integration.wirecard.at/doku.php/wcs:pci3_fallback:start)
 6. `user_agent` (Optional): Library user agent used for HTTP requests, you can optionally set this to your site’s name
 
-Next we’ll create the *Client*. The *Client* sends your requests to the Wirecard API, using the context:
-
-``` php
-<?php
-
-use Hochstrasser\Wirecard\Client;
-use Hochstrasser\Wirecard\Adapter;
-
-$client = new Client($context, Adapter::defaultAdapter());
-```
-
-Now with a client initialized, we can start to make some payments.
-
 ### SDK Patterns
-
-This SDK follows some patterns for all objects.
 
 #### Requests
 
@@ -80,32 +72,24 @@ All requests are simple classes which implement the [WirecardRequestInterface](s
 
 Requests are passed to the client, which sets the context on the request, then the request turns itself into a PSR-7 compatible request object, which the client sends. Then a response is returned, which can be checked for errors and contains the results.
 
-```php
-<?php
-
-$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com');
-$response = $client->send($request);
-```
-
-Requests know about their required parameters. If a known required parameter is missing, then a [RequiredParameterMissingException](src/Exception/RequiredParameterMissingException.php) is thrown.
-
-Requests can also be manually converted to a PSR-7 compatible request with the
+Requests are converted to PSR-7 compatible requests with the
 `createHttpRequest` method. The context has to be set before. The `createResponse` method converts any PSR-7 compatible response object to WirecardResponseInterface.
 
 ```php
 <?php
 
-$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com');
-$request->setContext($context);
+$client = new \GuzzleHttp\Client;
 
-$httpRequest = $request->createHttpRequest();
+$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
+    ->setContext($context);
 
-// Send PSR-7 request with some PSR-7 compatible HTTP client library,
-// e.g. Guzzle v6
-$httpResponse = …
-
+$httpResponse = $client->send($request->createHttpRequest());
 $response = $request->createResponse($httpResponse);
 ```
+
+It may seem a bit cumbersome, but it has the big benefit of freeing you of any imposed dependency on a particular version of a HTTP client library, like Guzzle, or Buzz. You may use the client that suits you best, or offers you the best performance, which will always be better, faster, and have more features than anything this library could ever provide. Plus there’s little risk of dependencies of the SDK conflicting with your application’s.
+
+Requests know about their required parameters. If a known required parameter is missing, then a [RequiredParameterMissingException](src/Exception/RequiredParameterMissingException.php) is thrown.
 
 #### Responses
 
@@ -207,9 +191,10 @@ To create the request use the `withOrderIdentAndReturnUrl` named constructor. Th
 
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
 
-$response = $client->send(
-    InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
-);
+$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
+    ->setContext($context);
+
+$response = $request->createResponse($client->send($request->createHttpRequest()));
 
 $storageId = $response->toObject()->getStorageId();
 
@@ -229,9 +214,10 @@ Reads the data storage and returns an array of masked [customer data](src/Model/
 
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
 
-$response = $client->send(
-    ReadDataStorageRequest::withStorageId($storageId)
-);
+$request = ReadDataStorageRequest::withStorageId($storageId)
+    ->setContext($context);
+
+$response = $request->createResponse($client->send($request->createHttpRequest()));
 
 var_dump($response->hasErrors());
 var_dump($response->toObject()->getStorageId());
@@ -366,6 +352,7 @@ $request = InitPaymentRequest::withBasket($basket)
     ->setConfirmUrl('http://example.com')
     ->setConsumerUserAgent($_SERVER['HTTP_USER_AGENT'])
     ->setConsumerIpAddress($_SERVER['REMOTE_IP'])
+    ->setContext($context)
     ;
 
 // Set the data storage ID if the data storage was initialized
@@ -373,7 +360,7 @@ if (isset($_SESSION['dataStorageId'])) {
     $request->setStorageId($_SESSION['dataStorageId']);
 }
 
-$response = $client->send($request);
+$response = $request->createResponse($client->send($request->createHttpRequest()));
 ```
 
 Using the response model, you now can redirect customers to Wirecard’s payment confirmation flow, in which they are in turn redirected to PayPal, their bank, or 3-D Secure.
@@ -388,44 +375,6 @@ if ($response->hasErrors()) {
 // Redirect if no errors happened
 header('Location: '.$response->toObject()->getRedirectUrl());
 ```
-
-### Usage with a PSR-7 enabled client
-
-If you already use a HTTP client which uses the PSR-7 standard for request and response messages, then you can avoid the provided client completely.
-
-It's a bit more work, but it frees you completely of unwanted, or even conflicting, dependencies.
-
-Every request is capable of converting itself to a standard PSR-7 request message and converting any PSR-7 compliant response to an API response.
-
-``` php
-<?php
-
-use GuzzleHttp\Client;
-use Hochstrasser\Wirecard\Context;
-use Hochstrasser\Wirecard\Request\Seamless\Frontend\InitDataStorageRequest;
-
-$context = new Context('Your customer ID', 'Your secret', 'de');
-$client = new Client;
-
-$request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://example.com')
-    ->setContext($context);
-
-$response = $request->createResponse($client->send($request->createHttpRequest()));
-
-var_dump($response->toObject()->getStorageId());
-```
-
-### Implementing your own Adapter
-
-An adapter is any simple function, which takes a PSR-7 compliant request message and converts it to a PSR-7 response.
-
-The signature would look like this:
-
-```
-function(Psr\Http\Message\RequestInterface $request): Psr\Http\Message\ResponseInterface
-```
-
-For some adapters to popular libraries, have a look at the [src/Adapter directory](src/Adapter).
 
 ## Change log
 

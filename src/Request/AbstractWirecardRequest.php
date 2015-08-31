@@ -15,7 +15,7 @@ use GuzzleHttp\Psr7 as psr;
 abstract class AbstractWirecardRequest
     implements WirecardRequestInterface, \Serializable
 {
-    private $params;
+    private $parameters;
     private $context;
 
     protected $requiredParameters = [];
@@ -77,25 +77,28 @@ abstract class AbstractWirecardRequest
 
     function addParam($param, $value)
     {
-        $this->getParameterBag()->set($param, $value);
+        $this->parameters[$param] = $value;
         return $this;
     }
 
     function getParam($param)
     {
-        return $this->getParameterBag()->get($param);
+        if (!array_key_exists($param, $this->parameters)) {
+            return;
+        }
+
+        return $this->parameters[$param];
     }
 
-    // TODO: Make protected
-    function getParameterBag()
-    {
-        return $this->params;
-    }
-
-    // TODO: Make protected
+    /**
+     * Returns the request parameters without calculated fingerprint
+     *
+     * Override this method in your subclasses to modify parameters before they are
+     * passed to the PSR-7 request message.
+     */
     protected function getRawParameters()
     {
-        $params = $this->getParameterBag()->all();
+        $params = $this->parameters;
         $context = $this->getContext();
 
         if (empty($params['customerId'])) {
@@ -122,10 +125,17 @@ abstract class AbstractWirecardRequest
         return $params;
     }
 
-    protected function assertParametersAreValid(array $params, array $requiredParameters)
+    /**
+     * Validates that all required parameters are set, otherwise throws an exception
+     *
+     * @param array $parameters
+     * @param array $requiredParameters List of required parameters
+     * @throws RequiredParameterMissingException
+     */
+    protected function assertParametersAreValid(array $parameters, array $requiredParameters)
     {
         foreach ($requiredParameters as $parameter) {
-            if (empty($params[$parameter])) {
+            if (empty($parameters[$parameter])) {
                 throw RequiredParameterMissingException::withParameter($parameter);
             }
         }
@@ -135,7 +145,7 @@ abstract class AbstractWirecardRequest
     {
         return serialize([
             'context' => $this->context,
-            'params' => $this->params->all()
+            'parameters' => $this->parameters
         ]);
     }
 
@@ -144,6 +154,6 @@ abstract class AbstractWirecardRequest
         $data = unserialize($data);
 
         $this->context = $data['context'];
-        $this->params = new ParameterBag($data['params']);
+        $this->parameters = $data['parameters'];
     }
 }

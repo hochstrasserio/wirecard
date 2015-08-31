@@ -35,7 +35,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Hochstrasser\\Wirecard\\Test\\": "tests"
+            "Hochstrasser\\Wirecard\\Test\\": ["tests/unit", "tests/functional"]
         }
     },
     "scripts": {

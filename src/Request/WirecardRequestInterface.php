@@ -10,9 +10,17 @@ use Hochstrasser\Wirecard\Context;
 interface WirecardRequestInterface
 {
     /**
+     * Returns the URL of the API endpoint
+     *
+     * @return string
+     */
+    function getEndpoint();
+
+    /**
      * Set the context, which contains global API settings
      *
      * @param Context $context
+     * @return WirecardRequestInterface
      */
     function setContext(Context $context);
 

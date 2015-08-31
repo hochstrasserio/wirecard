@@ -2,7 +2,7 @@
 
 namespace Hochstrasser\Wirecard\Test;
 
-use Hochstrasser\Wirecard\Client;
+use GuzzleHttp\Client;
 use Hochstrasser\Wirecard\Adapter;
 use Hochstrasser\Wirecard\Context;
 
@@ -22,12 +22,11 @@ abstract class AbstractWirecardTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Hochstrasser\Wirecard\Client
+     * @return GuzzleHttp\Client
      */
     protected function getClient()
     {
-        $context = $this->getContext();
-        $client = new Client($context, Adapter::defaultAdapter());
+        $client = new Client();
 
         return $client;
     }

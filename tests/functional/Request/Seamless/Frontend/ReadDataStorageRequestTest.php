@@ -11,17 +11,21 @@ class ReadDataStorageRequestTest extends AbstractWirecardTest
     public function testReadRequest()
     {
         $client = $this->getClient();
-
-        $response = $client->send(InitDataStorageRequest::withOrderIdentAndReturnUrl(
+        $request = InitDataStorageRequest::withOrderIdentAndReturnUrl(
             1234,
             'http://www.example.com'
-        ));
+        );
+        $request->setContext($this->getContext());
+
+        $response = $request->createResponse($client->send($request->createHttpRequest()));
         $this->assertNotNull($response->toObject());
 
         $storageId = $response->toObject()->getStorageId();
 
-        $response = $client
-            ->send(ReadDataStorageRequest::withStorageId($storageId));
+        $request = ReadDataStorageRequest::withStorageId($storageId)
+            ->setContext($this->getContext());
+
+        $response = $request->createResponse($client->send($request->createHttpRequest()));
 
         $this->assertNotNull($response->toObject());
 

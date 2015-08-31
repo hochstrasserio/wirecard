@@ -18,6 +18,6 @@ class InitCheckoutPageRequestTest extends AbstractWirecardTest
             ->setSuccessUrl('http://localhost')
             ->setCancelUrl('http://localhost')
             ->setFailureUrl('http://localhost')
-            ->setServiceUrl('http://localhost'));
+            ->setServiceUrl('http://localhost')->createHttpRequest());
     }
 }

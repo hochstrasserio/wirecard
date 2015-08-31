@@ -18,6 +18,10 @@ class Fingerprint
 
     static function fromResponseParameters(array $parameters, Context $context = null)
     {
+        if (empty($parameters['responseFingerprintOrder'])) {
+            throw new \UnexpectedValueException('The responseFingerprintOrder parameter is missing');
+        }
+
         $self = static::fromParameters($parameters);
         $self->setFingerprintOrder(explode(',', $parameters['responseFingerprintOrder']));
 
