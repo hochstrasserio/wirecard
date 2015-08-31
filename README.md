@@ -365,7 +365,7 @@ if (isset($_SESSION['dataStorageId'])) {
 $response = $request->createResponse($client->send($request->createHttpRequest()));
 ```
 
-Using the response model, you now can redirect customers to Wirecard’s payment confirmation flow, in which they are in turn redirected to PayPal, their bank, or 3-D Secure.
+Using the response model, you now can redirect customers to Wirecard’s payment confirmation flow. This flow will then connect your customers to their selected payment provider, e.g. PayPal or 3-D secure, where they’ll confirm the payment.
 
 ```php
 <?php
@@ -376,6 +376,28 @@ if ($response->hasErrors()) {
 
 // Redirect if no errors happened
 header('Location: '.$response->toObject()->getRedirectUrl());
+```
+
+##### Handling response parameters
+
+Afterwards, Wirecard will send a POST request to the URL passed as confirmUrl with the response parameters of the payment request. These parameters contain the order number, and more. Store these parameters for reference.
+
+You can use the provided Fingerprint class to verify the supplied response fingerprint:
+
+``` php
+<?php
+
+use Hochstrasser\Wirecard\Fingerprint;
+
+$responseParameters = $_POST;
+$fingerprint = Fingerprint::fromResponseParameters($responseParameters, $context);
+
+if (!hash_equals($responseParameters['responseFingerprint'], (string) $fingerprint)) {
+    // Fingerprint is not valid, abort
+    exit;
+}
+
+// Fingerprint is valid. Go on and store the response parameters
 ```
 
 ## Change log
