@@ -350,6 +350,8 @@ $request = InitPaymentRequest::withBasket($basket)
     // Your callback controller for handling the result of the payment, you will
     // receive a POST request at this URL
     ->setConfirmUrl('http://example.com')
+    ->setConsumerShippingInformation($shippingInformation)
+    ->setConsumerBillingInformation($billingInformation)
     ->setConsumerUserAgent($_SERVER['HTTP_USER_AGENT'])
     ->setConsumerIpAddress($_SERVER['REMOTE_IP'])
     ->setContext($context)
