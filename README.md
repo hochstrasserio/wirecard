@@ -166,6 +166,8 @@ $request = InitCheckoutPageRequest::with()
 </form>
 ```
 
+Another major difference of Checkout Page is, that the `successUrl` receives all payment response parameters as a POST request, just like the `confirmUrl`. The `confirmUrl` can additionally be set to receive the parameters independent of user actions, for you to record for reference.
+
 ### Wirecard Seamless Checkout
 
 With Wirecard Seamless Checkout, your customer uses your own custom page to select the payment methods which you did enable for your site. How this UI looks and works is completely up to you.
