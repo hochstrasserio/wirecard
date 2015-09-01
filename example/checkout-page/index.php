@@ -6,11 +6,13 @@ use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Model\Common\PaymentType;
 use Hochstrasser\Wirecard\Model\Common\Basket;
 use Hochstrasser\Wirecard\Model\Common\BasketItem;
+use Hochstrasser\Wirecard\Model\Common\ShippingInformation;
+use Hochstrasser\Wirecard\Model\Common\BillingInformation;
 use Hochstrasser\Wirecard\Request\CheckoutPage\InitCheckoutPageRequest;
 
 $context = new Context([
-    'customer_id' => 'D200001',
-    'secret' => 'B8AKTPWBRMNBV455FG6M2DANE99WU2',
+    'customer_id' => 'D200411',
+    'secret' => 'CHCSH7UGHVVX2P7EHDHSY4T2S4CGYK4QBE4M5YUUG2ND5BEZWNRZW5EJYVJQ',
     'language' => 'de',
     'shop_id' => 'qmore'
 ]);
@@ -33,8 +35,24 @@ $basket->addItem((new BasketItem)
     ->setTax('1.00')
 );
 
+$shipping = (new ShippingInformation)
+    ->setFirstname('Christoph')
+    ->setLastname('Hochstrasser')
+    ->setAddress1('Markt 1')
+    ->setZipCode('1234')
+    ->setCity('Musterstadt')
+    ->setState('Niederösterreich')
+    ->setCountry('AT');
+
+$billing = BillingInformation::fromShippingInformation($shipping)
+    ->setConsumerEmail('me@christophh.net')
+    ->setConsumerBirthdate(new \DateTime('01.01.1970'))
+    ;
+
 $request = InitCheckoutPageRequest::withBasket($basket)
     ->setPaymentType(PaymentType::Select)
+    ->setConsumerShippingInformation($shipping)
+    ->setConsumerBillingInformation($billing)
     ->setContext($context)
     ->setOrderDescription("12345")
     ->setSuccessUrl("http://localhost:8001/success.php")
