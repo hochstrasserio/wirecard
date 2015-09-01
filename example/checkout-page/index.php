@@ -16,21 +16,21 @@ $context = new Context([
 ]);
 
 $basket = new Basket();
-$basket->setAmount(18);
+$basket->setAmount('18.00');
 $basket->setCurrency('EUR');
 $basket->addItem((new BasketItem)
     ->setArticleNumber('A001')
     ->setDescription('Product A1')
     ->setQuantity(1)
-    ->setUnitPrice(10.00)
-    ->setTax(2.00)
+    ->setUnitPrice('10.00')
+    ->setTax('2.00')
 );
 $basket->addItem((new BasketItem)
     ->setArticleNumber('SHIPPING')
     ->setDescription('Shipping')
     ->setQuantity(1)
-    ->setUnitPrice(5.00)
-    ->setTax(1.00)
+    ->setUnitPrice('5.00')
+    ->setTax('1.00')
 );
 
 $request = InitCheckoutPageRequest::withBasket($basket)
