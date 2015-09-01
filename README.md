@@ -213,7 +213,7 @@ Reads the data storage and returns an array of masked [customer data](src/Model/
 
 use Hochstrasser\Wirecard\Request\Seamless\Frontend\ReadDataStorageRequest;
 
-$request = ReadDataStorageRequest::withStorageId($storageId)
+$request = ReadDataStorageRequest::withStorageId($_SESSION['wirecardDataStorageId'])
     ->setContext($context);
 
 $response = $request->createResponse($client->send($request->createHttpRequest()));
