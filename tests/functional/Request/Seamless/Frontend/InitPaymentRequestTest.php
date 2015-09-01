@@ -16,7 +16,7 @@ class InitPaymentRequestTest extends AbstractWirecardTest
     {
         $request = InitPaymentRequest::with()
             ->addParam('paymentType', PaymentType::PayPal)
-            ->addParam('amount', 12.01)
+            ->addParam('amount', '12.01')
             ->addParam('currency', 'EUR')
             ->addParam('orderDescription', 'Some test order')
             ->addParam('successUrl', 'http://www.example.com')
@@ -38,21 +38,21 @@ class InitPaymentRequestTest extends AbstractWirecardTest
         $client = $this->getClient();
 
         $basket = new Basket();
-        $basket->setAmount(18);
+        $basket->setAmount('18.00');
         $basket->setCurrency('EUR');
         $basket->addItem((new BasketItem)
             ->setArticleNumber('A001')
             ->setDescription('Product A1')
             ->setQuantity(1)
-            ->setUnitPrice(10.00)
-            ->setTax(2.00)
+            ->setUnitPrice('10.00')
+            ->setTax('2.00')
         );
         $basket->addItem((new BasketItem)
             ->setArticleNumber('SHIPPING')
             ->setDescription('Shipping')
             ->setQuantity(1)
-            ->setUnitPrice(5.00)
-            ->setTax(1.00)
+            ->setUnitPrice('5.00')
+            ->setTax('1.00')
         );
 
         $shippingInformation = (new ShippingInformation)
@@ -71,11 +71,9 @@ class InitPaymentRequestTest extends AbstractWirecardTest
             ->setConsumerEmail('test@test.com')
             ->setConsumerBirthDate(\DateTime::createFromFormat('Y-m-d', '1970-01-01'));
 
-        $request = InitPaymentRequest::with()
+        $request = InitPaymentRequest::withBasket($basket)
             ->addParam('paymentType', PaymentType::PayPal)
             // Todo: set amount and currency automatically with setBasket()?
-            ->addParam('amount', $basket->getAmount())
-            ->addParam('currency', $basket->getCurrency())
             ->addParam('orderDescription', 'Some test order')
             ->addParam('successUrl', 'http://www.example.com')
             ->addParam('failureUrl', 'http://www.example.com')

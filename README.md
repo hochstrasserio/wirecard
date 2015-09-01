@@ -147,7 +147,7 @@ $context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de');
 $request = InitCheckoutPageRequest::with()
     ->setPaymentType(PaymentType::Select)
     ->setContext($context)
-    ->setAmount(33.00)
+    ->setAmount('33.00')
     ->setCurrency('EUR')
     ->setOrderDescription("12345")
     ->setSuccessUrl("http://localhost:8001/")
@@ -234,7 +234,7 @@ Requests the payment and returns a redirect URL. Redirect your customer to this 
 
 ##### Required payment parameters
 
-* `amount`: Payment amount, e.g. `12.00`. Used from the basket when `withBasket` is used.
+* `amount`: Payment amount, e.g. `12.00`. Used from the basket when `withBasket` is used. Set as string to avoid rounding errors, which can happen with floats.
 * `currency`: ISO Currency Code, e.g. `EUR`. Used from the basket when `withBasket` is used.
 * `paymentType` ([PaymentType](src/Model/Common/PaymentType.php)): The payment type, which was selected by your customer. You can use `PaymentType::isValid()` to validate the identifier of the requested payment type.
 * `orderDescription`: Description of your order, can be e.g. structured data about the order.
@@ -253,6 +253,8 @@ There are a lot more optional parameters for payment requests, to e.g. make recu
 
 The payment request uses a [Basket](src/Model/Common/Basket.php) filled with [Basket Items](src/Model/Common/BasketItem.php) to show the customer’s products at the checkout screen of e.g. PayPal. You can also use this to easily set the amount and currency of your order. In most cases you should be able to infer the basket from your site’s own basket model.
 
+**Note:** If a basket is set on the payment request, Wirecard validates on the server if all prices of the basket items and the total amount add up correctly. Otherwise, Wirecard returns an error.
+
 ``` php
 <?php
 
@@ -263,21 +265,21 @@ use Hochstrasser\Wirecard\Model\Common\BasketItem;
 // can be automatically created from your shop’s cart model
 
 $basket = new Basket();
-$basket->setAmount(17.00);
+$basket->setAmount('17.00');
 $basket->setCurrency('EUR');
 $basket->addItem((new BasketItem)
     ->setArticleNumber('A001')
     ->setDescription('Product A1')
     ->setQuantity(1)
-    ->setUnitPrice(10.00)
-    ->setTax(1.00)
+    ->setUnitPrice('10.00')
+    ->setTax('1.00')
 );
 $basket->addItem((new BasketItem)
     ->setArticleNumber('SHIPPING')
     ->setDescription('Shipping')
     ->setQuantity(1)
-    ->setUnitPrice(5.00)
-    ->setTax(1.00)
+    ->setUnitPrice('5.00')
+    ->setTax('1.00')
 );
 ```
 
