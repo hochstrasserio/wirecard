@@ -194,10 +194,11 @@ $request = InitDataStorageRequest::withOrderIdentAndReturnUrl('1234', 'http://ex
 
 $response = $request->createResponse($client->send($request->createHttpRequest()));
 
-$storageId = $response->toObject()->getStorageId();
+// Store the storage ID for later usage with the payment request
+$_SESSION['wirecardDataStorageId'] = $response->toObject()->getStorageId();
 
 var_dump($response->hasErrors());
-var_dump($storageId);
+var_dump($response->toObject()->getStorageId());
 var_dump($response->toObject()->getJavascriptUrl());
 ```
 
@@ -356,8 +357,8 @@ $request = InitPaymentRequest::withBasket($basket)
     ;
 
 // Set the data storage ID if the data storage was initialized
-if (isset($_SESSION['dataStorageId'])) {
-    $request->setStorageId($_SESSION['dataStorageId']);
+if (isset($_SESSION['wirecardDataStorageId'])) {
+    $request->setStorageId($_SESSION['wirecardDataStorageId']);
 }
 
 $response = $request->createResponse($client->send($request->createHttpRequest()));
