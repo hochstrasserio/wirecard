@@ -70,10 +70,8 @@ The *Context* has some more options that you can pass to the constructor:
 
 All requests are simple classes which implement the [WirecardRequestInterface](src/Request/WirecardRequestInterface.php) and can be constructed directly. Most classes have a specific named constructor, which starts with `with*`, e.g. `withBasket`, or `withOrderIdentAndReturnUrl`. These should be preferred over the simple constructor.
 
-Requests are passed to the client, which sets the context on the request, then the request turns itself into a PSR-7 compatible request object, which the client sends. Then a response is returned, which can be checked for errors and contains the results.
-
 Requests are converted to PSR-7 compatible requests with the
-`createHttpRequest` method. The context has to be set before. The `createResponse` method converts any PSR-7 compatible response object to WirecardResponseInterface.
+`createHttpRequest` method. The context has to be set before. Then you can send the PSR-7 compatible request message with your HTTP client. The `createResponse` method converts any PSR-7 compatible response object to WirecardResponseInterface after you sent the request.
 
 ```php
 <?php
