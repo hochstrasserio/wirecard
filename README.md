@@ -234,6 +234,8 @@ Requests the payment and returns a redirect URL. Redirect your customer to this 
 
 ##### Required payment parameters
 
+* `amount`: Payment amount, e.g. `12.00`. Used from the basket when `withBasket` is used.
+* `currency`: ISO Currency Code, e.g. `EUR`. Used from the basket when `withBasket` is used.
 * `paymentType` ([PaymentType](src/Model/Common/PaymentType.php)): The payment type, which was selected by your customer. You can use `PaymentType::isValid()` to validate the identifier of the requested payment type.
 * `orderDescription`: Description of your order, can be e.g. structured data about the order.
 * `successUrl`: If the payment was successful, then the customer gets redirected by Wirecard to this URL.
