@@ -5,7 +5,12 @@ require __DIR__.'/../../vendor/autoload.php';
 use Hochstrasser\Wirecard\Fingerprint;
 use Hochstrasser\Wirecard\Context;
 
-$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de', 'qmore');
+$context = new Context([
+    'customer_id' => 'D200001',
+    'secret' => 'B8AKTPWBRMNBV455FG6M2DANE99WU2',
+    'language' => 'de',
+    'shop_id' => 'qmore'
+]);
 
 $fingerprint = Fingerprint::fromResponseParameters($_POST, $context);
 $fingerprintIsValid = hash_equals((string) $fingerprint, $_POST['responseFingerprint']);

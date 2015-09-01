@@ -143,7 +143,7 @@ use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Model\Common\PaymentType;
 use Hochstrasser\Wirecard\Request\CheckoutPage\InitCheckoutPageRequest;
 
-$context = new Context('D200001', 'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'de');
+$context = new Context(['customer_id' => 'D200001', 'secret' =>  'B8AKTPWBRMNBV455FG6M2DANE99WU2', 'language' => 'de']);
 $request = InitCheckoutPageRequest::with()
     ->setPaymentType(PaymentType::Select)
     ->setContext($context)
