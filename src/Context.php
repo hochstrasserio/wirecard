@@ -12,16 +12,12 @@ class Context implements \Serializable
     private $shopId;
     private $javascriptScriptVersion;
     private $userAgent = 'hochstrasser/wirecard';
+    private $backendPassword;
 
     /**
      * Constructor
      *
-     * @param string $customerId Unique ID of merchant
-     * @param string $secret Secret key for fingerprinting
-     * @param string $language Language for returned texts and error messages
-     * @param string $shopId Unique ID of your online shop
-     * @param string $javascriptScriptVersion Version number of JavaScript, enable iFrame support by passing 'pci3'
-     * @param string $userAgent API Client Identifier
+     * @param array $options
      */
     function __construct(array $options)
     {
@@ -64,6 +60,11 @@ class Context implements \Serializable
     function getUserAgent()
     {
         return $this->userAgent;
+    }
+
+    function getBackendPassword()
+    {
+        return $this->backendPassword;
     }
 
     function serialize()

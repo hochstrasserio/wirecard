@@ -12,6 +12,7 @@
     <testsuites>
         <testsuite name="League Test Suite">
             <directory>tests</directory>
+            <exclude>tests/functional/Request/Seamless/Backend</exclude>
         </testsuite>
     </testsuites>
     <filter>
@@ -27,5 +28,6 @@
         <server name="CUSTOMER_ID" value="D200001"/>
         <server name="CUSTOMER_SECRET" value="B8AKTPWBRMNBV455FG6M2DANE99WU2"/>
         <server name="SHOP_ID" value="qmore"/>
+        <server name="BACKEND_PASSWORD" value="jcv45z"/>
     </php>
 </phpunit>
