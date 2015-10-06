@@ -9,8 +9,8 @@ class WirecardResponse implements WirecardResponseInterface
 {
     const DEFAULT_MODEL = 'Hochstrasser\Wirecard\Model\DefaultModel';
 
-    private $parameters = [];
-    private $resultClass;
+    protected $parameters = [];
+    protected $resultClass;
 
     static function fromHttpResponse(ResponseInterface $response, $resultClass = self::DEFAULT_MODEL)
     {

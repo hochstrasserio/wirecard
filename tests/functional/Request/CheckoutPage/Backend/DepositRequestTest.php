@@ -1,20 +1,22 @@
 <?php
 
-namespace Hochstrasser\Wirecard\Test\Request\Seamless\Backend;
+namespace Hochstrasser\Wirecard\Test\Request\CheckoutPage\Backend;
 
-use Hochstrasser\Wirecard\Request\Seamless\Backend\GetOrderDetailsRequest;
+use Hochstrasser\Wirecard\Request\Seamless\Backend\DepositRequest;
 use Hochstrasser\Wirecard\Test\AbstractWirecardTest;
 
-class GetOrderDetailsRequestTest extends AbstractWirecardTest
+class DepositRequestTest extends AbstractWirecardTest
 {
     function test()
     {
-        $request = new GetOrderDetailsRequest;
+        $request = new DepositRequest;
         $request->setOrderNumber('2726917');
+        $request->setAmount('10.00');
+        $request->setCurrency('EUR');
         $request->setContext($this->getContext());
 
         $response = $request->createResponse($this->getClient()->send($request->createHttpRequest()));
-        var_dump($response->toArray());
+
         $this->assertNotEmpty($response->toArray());
         $this->assertFalse($response->hasErrors());
     }

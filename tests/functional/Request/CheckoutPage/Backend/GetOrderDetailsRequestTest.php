@@ -1,6 +1,6 @@
 <?php
 
-namespace Hochstrasser\Wirecard\Test\Request\Seamless\Backend;
+namespace Hochstrasser\Wirecard\Test\Request\CheckoutPage\Backend;
 
 use Hochstrasser\Wirecard\Request\Seamless\Backend\GetOrderDetailsRequest;
 use Hochstrasser\Wirecard\Test\AbstractWirecardTest;

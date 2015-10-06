@@ -1,9 +1,9 @@
 <?php
 
-namespace Hochstrasser\Wirecard\Request\Seamless\Backend;
+namespace Hochstrasser\Wirecard\Request\CheckoutPage\Backend;
 
 use Hochstrasser\Wirecard\Request\AbstractWirecardRequest;
-use Hochstrasser\Wirecard\Response\WirecardBackendResponse;
+use Hochstrasser\Wirecard\Response\WirecardCheckoutPageBackendResponse;
 use Hochstrasser\Wirecard\Fingerprint;
 
 abstract class AbstractBackendRequest extends AbstractWirecardRequest
@@ -12,12 +12,12 @@ abstract class AbstractBackendRequest extends AbstractWirecardRequest
 
     function getEndpoint()
     {
-        return 'https://checkout.wirecard.com/seamless/backend/'.$this->operation;
+        return 'https://checkout.wirecard.com/page/toolkit.php';
     }
 
     function createResponse(\Psr\Http\Message\ResponseInterface $response)
     {
-        return WirecardBackendResponse::fromHttpResponse(
+        return WirecardCheckoutPageBackendResponse::fromHttpResponse(
             $response,
             $this->resultClass
         );
@@ -31,8 +31,12 @@ abstract class AbstractBackendRequest extends AbstractWirecardRequest
             $params['language'] = $this->getContext()->getLanguage();
         }
 
-        if (empty($params['password'])) {
-            $params['password'] = $this->getContext()->getBackendPassword();
+        if (empty($params['toolkitPassword'])) {
+            $params['toolkitPassword'] = $this->getContext()->getBackendPassword();
+        }
+
+        if (empty($params['command'])) {
+            $params['command'] = $this->operation;
         }
 
         return $params;
