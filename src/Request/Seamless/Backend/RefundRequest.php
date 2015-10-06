@@ -2,9 +2,9 @@
 
 namespace Hochstrasser\Wirecard\Request\Seamless\Backend;
 
-class DepositRequest extends AbstractBackendRequest
+class RefundRequest extends AbstractBackendRequest
 {
-    protected $operation = 'deposit';
+    protected $operation = 'refund';
     protected $requiredParameters = ['orderNumber', 'amount', 'currency'];
     protected $fingerprintOrder = ['orderNumber', 'amount', 'currency'];
     // protected $resultClass = 'Hochstrasser\Wirecard\Model\Seamless\Frontend\DataStorageInitResult';
@@ -22,7 +22,7 @@ class DepositRequest extends AbstractBackendRequest
      * ID of the order
      *
      * @param string $orderNumber
-     * @return DepositRequest
+     * @return RefundRequest
      */
     function setOrderNumber($orderNumber)
     {

@@ -19,8 +19,8 @@ class GetOrderDetailsRequest extends AbstractBackendRequest
     /**
      * ID of the order
      *
-     * @param string $orderIdent
-     * @return InitDataStorageRequest
+     * @param string $orderNumber
+     * @return GetOrderDetailsRequest
      */
     function setOrderNumber($orderNumber)
     {

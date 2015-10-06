@@ -19,8 +19,8 @@ class DepositRequest extends AbstractBackendRequest
     /**
      * ID of the order
      *
-     * @param string $orderIdent
-     * @return InitDataStorageRequest
+     * @param string $orderNumber
+     * @return DepositRequest
      */
     function setOrderNumber($orderNumber)
     {

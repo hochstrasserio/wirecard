@@ -2,7 +2,7 @@
 
 namespace Hochstrasser\Wirecard\Request\Seamless\Backend;
 
-class ApproveReversalRequest extends AbstractBackendRequest
+class DepositReversalRequest extends AbstractBackendRequest
 {
     protected $operation = 'depositReversal';
     protected $requiredParameters = ['orderNumber', 'paymentNumber'];
@@ -20,8 +20,8 @@ class ApproveReversalRequest extends AbstractBackendRequest
     /**
      * ID of the order
      *
-     * @param string $orderIdent
-     * @return InitDataStorageRequest
+     * @param string $orderNumber
+     * @return DepositReversalRequest
      */
     function setOrderNumber($orderNumber)
     {

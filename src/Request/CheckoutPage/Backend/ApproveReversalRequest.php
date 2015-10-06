@@ -19,8 +19,8 @@ class ApproveReversalRequest extends AbstractBackendRequest
     /**
      * ID of the order
      *
-     * @param string $orderIdent
-     * @return InitDataStorageRequest
+     * @param string $orderNumber
+     * @return ApproveReversalRequest
      */
     function setOrderNumber($orderNumber)
     {
