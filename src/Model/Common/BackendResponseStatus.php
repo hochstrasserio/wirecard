@@ -17,7 +17,7 @@ class BackendResponseStatus
         $this->status = $status;
     }
 
-    function getStatus()
+    function getValue()
     {
         return $status;
     }
