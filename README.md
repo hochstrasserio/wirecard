@@ -17,8 +17,8 @@ SDK Coverage:
 
 - [x] Wirecard Checkout Page
 - [x] Wirecard Seamless Checkout
-- [ ] Seamless Backend operations
-- [ ] Checkout Page Backend operations
+- [x] Seamless Backend operations
+- [x] Checkout Page Backend operations
 
 ## Install
 
