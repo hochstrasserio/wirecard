@@ -19,6 +19,6 @@ class BackendResponseStatus
 
     function getValue()
     {
-        return $status;
+        return $this->status;
     }
 }
