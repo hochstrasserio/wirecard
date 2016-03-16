@@ -3,7 +3,6 @@
 namespace Hochstrasser\Wirecard\Request;
 
 use Hochstrasser\Wirecard\Request\WirecardRequestInterface;
-use Hochstrasser\Wirecard\Request\ParameterBag;
 use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Response\WirecardResponse;
 use Hochstrasser\Wirecard\Fingerprint;
@@ -23,20 +22,29 @@ abstract class AbstractWirecardRequest
     protected $endpoint = '';
     protected $resultClass = 'Hochstrasser\Wirecard\Model\DefaultModel';
 
+    /**
+     * {@inheritDoc}
+     */
     function __construct(Context $context = null)
     {
         if (null !== $context) {
             $this->setContext($context);
         }
-
-        $this->params = new ParameterBag;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function getEndpoint()
     {
         return $this->endpoint;
     }
 
+    /**
+     * Converts the request to a PSR-7 RequestInterface
+     *
+     * @return \Psr\Http\Message\RequestInterface
+     */
     function createHttpRequest()
     {
         $headers = [
@@ -56,6 +64,12 @@ abstract class AbstractWirecardRequest
         return $httpRequest;
     }
 
+    /**
+     * Converts the PSR-7 ResponseInterface to a Wirecard Response
+     *
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @return WirecardResponse
+     */
     function createResponse(\Psr\Http\Message\ResponseInterface $response)
     {
         return WirecardResponse::fromHttpResponse(
@@ -156,6 +170,9 @@ abstract class AbstractWirecardRequest
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function serialize()
     {
         return serialize([
@@ -164,6 +181,9 @@ abstract class AbstractWirecardRequest
         ]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function unserialize($data)
     {
         $data = unserialize($data);
