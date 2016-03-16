@@ -15,6 +15,6 @@ class GenerateOrderNumberRequestTest extends AbstractWirecardTest
 
         $response = $request->createResponse($this->getClient()->send($request->createHttpRequest()));
 
-        var_dump($response->toArray());
+        $this->markTestIncomplete();
     }
 }

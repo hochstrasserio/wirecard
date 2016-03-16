@@ -14,8 +14,10 @@ class GetOrderDetailsRequestTest extends AbstractWirecardTest
         $request->setContext($this->getContext());
 
         $response = $request->createResponse($this->getClient()->send($request->createHttpRequest()));
-        var_dump($response->toArray());
+
         $this->assertNotEmpty($response->toArray());
         $this->assertFalse($response->hasErrors());
+
+        $this->markTestIncomplete();
     }
 }
