@@ -64,23 +64,35 @@ abstract class AbstractWirecardRequest
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function setContext(Context $context)
     {
         $this->context = $context;
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function getContext()
     {
         return $this->context;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function addParam($param, $value)
     {
         $this->parameters[$param] = $value;
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function getParam($param)
     {
         if (!array_key_exists($param, $this->parameters)) {
@@ -112,6 +124,9 @@ abstract class AbstractWirecardRequest
         return $params;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     function getRequestParameters()
     {
         $params = $this->getRawParameters();
