@@ -112,6 +112,8 @@ $helper = new WirecardHelper($context, function ($request) use ($guzzle) {
 $response = $helper->send(InitDataStorageRequest::withOrderIdentAndReturnUrl(
     '1234', 'http://example.com'
 ));
+
+$dataStorage = $response->toObject();
 ```
 
 Note, that the helper sends requests only synchronously. If you want async requests you have to use your HTTP library directly.
