@@ -95,7 +95,7 @@ There’s a small utility included, the `WirecardHelper` which safes you a coupl
 
 You pass it two things: the Wirecard context and a function to send a `Psr\Http\Message\RequestInterface` over the wire which returns a `Psr\Http\Message\ResponseInterface`.
 
-```
+```php
 <?php
 
 use Hochstrasser\Wirecard\Helper\WirecardHelper;
