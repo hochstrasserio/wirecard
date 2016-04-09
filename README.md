@@ -70,6 +70,8 @@ The *Context* has some more options that you can pass to the constructor:
 
 All requests are simple classes which implement the [WirecardRequestInterface](src/Request/WirecardRequestInterface.php) and can be constructed directly. Most classes have a specific named constructor, which starts with `with*`, e.g. `withBasket`, or `withOrderIdentAndReturnUrl`. These should be preferred over the simple constructor.
 
+#### Sending Requests
+
 Requests are converted to PSR-7 compatible requests with the
 `createHttpRequest` method. The context has to be set before. Then you can send the PSR-7 compatible request message with your HTTP client. The `createResponse` method converts any PSR-7 compatible response object to WirecardResponseInterface after you sent the request.
 
@@ -86,6 +88,33 @@ $response = $request->createResponse($httpResponse);
 ```
 
 It may seem a bit cumbersome, but it has the big benefit of freeing you of any imposed dependency on a particular version of a HTTP client library, like Guzzle, or Buzz. You may use the client that suits you best, or offers you the best performance, which will always be better, faster, and have more features than anything this library could ever provide. Plus there’s little risk of dependencies of the SDK conflicting with your application’s.
+
+#### Using the WirecardHelper
+
+There’s a small utility included, the `WirecardHelper` which safes you a couple of lines everytime you make a request. Initialize with the context and send the request with a configured client.
+
+You pass it two things: the Wirecard context and a function to send a `Psr\Http\Message\RequestInterface` over the wire which returns a `Psr\Http\Message\ResponseInterface`.
+
+```
+<?php
+
+use Hochstrasser\Wirecard\Helper\WirecardHelper;
+
+// Guzzle 6
+$guzzle = new Guzzle\Client;
+
+$helper = new WirecardHelper($context, function ($request) use ($guzzle) {
+    return $guzzle->send($request);
+});
+
+// Sets the context, converts the request and makes the http response to a
+// WirecardResponseInterface
+$response = $helper->send($request);
+```
+
+Note, that the helper sends requests only synchronously. If you want async requests you have to use your HTTP library directly.
+
+#### Required Parameters
 
 Requests know about their required parameters. If a known required parameter is missing, then a [RequiredParameterMissingException](src/Exception/RequiredParameterMissingException.php) is thrown.
 
