@@ -20,9 +20,7 @@ class WirecardHelperTest extends AbstractWirecardTest
     {
         $guzzle = $this->getClient();
 
-        $helper = new WirecardHelper($this->getContext(), function (RequestInterface $request) use ($guzzle) {
-            return $guzzle->send($request);
-        });
+        $helper = new WirecardHelper($this->getContext(), [$guzzle, 'send']);
 
         $response = $helper->send(InitDataStorageRequest::withOrderIdentAndReturnUrl(
             1234, 'http://www.example.com'

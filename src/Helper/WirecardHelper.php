@@ -16,9 +16,7 @@ class WirecardHelper
      * Example:
      *
      * $guzzle = new \Guzzle\Client;
-     * $helper = new WirecardHelper($context, function ($request) use ($guzzle) {
-     *      return $guzzle->send($request);
-     * });
+     * $helper = new WirecardHelper($context, [$guzzle, 'send']);
      */
     function __construct(Context $context, callable $client)
     {
@@ -31,13 +29,16 @@ class WirecardHelper
      */
     function send(WirecardRequestInterface $wirecardRequest)
     {
-        $client = $this->client;
-
-        $wirecardRequest->setContext($this->context);
+        $wirecardRequest->setContext($this->getContext());
 
         $httpRequest = $wirecardRequest->createHttpRequest();
-        $httpResponse = call_user_func($client, $httpRequest);
+        $httpResponse = call_user_func($this->client, $httpRequest);
 
         return $wirecardRequest->createResponse($httpResponse);
+    }
+
+    function getContext()
+    {
+        return $this->context;
     }
 }
