@@ -48,9 +48,9 @@ abstract class AbstractBackendRequest extends AbstractWirecardRequest
 
         $params['requestFingerprint'] = Fingerprint::fromParameters($params)
             ->setContext($this->getContext())
-            ->setFingerprintOrder(array_merge(['customerId', 'shopId', 'password', 'secret', 'language'], $this->fingerprintOrder));
+            ->setFingerprintOrder(array_merge(['customerId', 'shopId', 'toolkitPassword', 'secret', 'command', 'language'], $this->fingerprintOrder));
 
-        $this->assertParametersAreValid($params, array_merge(['customerId', 'requestFingerprint', 'password', 'language'], $this->requiredParameters));
+        $this->assertParametersAreValid($params, array_merge(['customerId', 'requestFingerprint', 'toolkitPassword', 'language'], $this->requiredParameters));
 
         return $params;
     }
