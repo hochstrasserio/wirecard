@@ -4,10 +4,18 @@ namespace Hochstrasser\Wirecard\Helper;
 
 use Hochstrasser\Wirecard\Context;
 use Hochstrasser\Wirecard\Request\WirecardRequestInterface;
+use Hochstrasser\Wirecard\Response\WirecardResponseInterface;
 
 class WirecardHelper
 {
+    /**
+     * @var Context
+     */
     private $context;
+
+    /**
+     * @var callable
+     */
     private $client;
 
     /**
@@ -17,6 +25,9 @@ class WirecardHelper
      *
      * $guzzle = new \Guzzle\Client;
      * $helper = new WirecardHelper($context, [$guzzle, 'send']);
+     *
+     * @param Context $context
+     * @param callable $client
      */
     function __construct(Context $context, callable $client)
     {
@@ -26,6 +37,8 @@ class WirecardHelper
 
     /**
      * Synchronously sends the request with the configured client
+     *
+     * @return WirecardResponseInterface
      */
     function send(WirecardRequestInterface $wirecardRequest)
     {
@@ -37,7 +50,10 @@ class WirecardHelper
         return $wirecardRequest->createResponse($httpResponse);
     }
 
-    function getContext()
+    /**
+     * @return Context
+     */
+    private function getContext()
     {
         return $this->context;
     }

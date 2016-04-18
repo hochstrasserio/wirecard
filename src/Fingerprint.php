@@ -2,12 +2,30 @@
 
 namespace Hochstrasser\Wirecard;
 
+use Hochstrasser\Wirecard\Context;
+
 class Fingerprint
 {
+    /**
+     * @var array
+     */
     private $parameters;
+
+    /**
+     * @var Context
+     */
     private $context;
+
+    /**
+     * @var array
+     */
     private $fingerprintOrder = [];
 
+    /**
+     * Create a fingerprint from parameters array
+     *
+     * @return Fingerprint
+     */
     static function fromParameters(array $parameters)
     {
         $self = new static;
@@ -16,6 +34,13 @@ class Fingerprint
         return $self;
     }
 
+    /**
+     * Create a fingerprint based on received response paramaters
+     *
+     * @param array $parameters
+     * @param Context $context
+     * @return Fingerprint
+     */
     static function fromResponseParameters(array $parameters, Context $context = null)
     {
         if (empty($parameters['responseFingerprintOrder'])) {
@@ -32,6 +57,12 @@ class Fingerprint
         return $self;
     }
 
+    /**
+     * Sets the context for fingerprint calculation
+     *
+     * @param Context $context
+     * @return Fingerprint
+     */
     function setContext(Context $context)
     {
         $this->context = $context;
@@ -43,12 +74,21 @@ class Fingerprint
         return $this;
     }
 
+    /**
+     * Sets the parameter order for fingerprint calculation
+     *
+     * @param array $fingerprintOrder List of parameter names
+     * @return Fingerprint
+     */
     function setFingerprintOrder(array $fingerprintOrder)
     {
         $this->fingerprintOrder = $fingerprintOrder;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     function __toString()
     {
         $raw = '';

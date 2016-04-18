@@ -25,7 +25,7 @@
         "egeloen/http-adapter": "~0.8.0@dev"
     },
     "suggest": {
-        "egeloen/http-adapter": "For additional adapters",
+        "php-http/httplug": "Adapters to existing HTTP clients",
         "sebastian/money": "Robust handling of money amounts"
     },
     "autoload": {

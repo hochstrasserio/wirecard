@@ -6,6 +6,9 @@ use Hochstrasser\Wirecard\Request\AbstractPaymentRequest;
 
 class InitPaymentRequest extends AbstractPaymentRequest
 {
+    /**
+     * Constructor
+     */
     function __construct()
     {
         parent::__construct();

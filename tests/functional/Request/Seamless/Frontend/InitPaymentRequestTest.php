@@ -9,6 +9,7 @@ use Hochstrasser\Wirecard\Model\Common\Basket;
 use Hochstrasser\Wirecard\Model\Common\BasketItem;
 use Hochstrasser\Wirecard\Model\Common\ShippingInformation;
 use Hochstrasser\Wirecard\Model\Common\BillingInformation;
+use DateTime;
 
 class InitPaymentRequestTest extends AbstractWirecardTest
 {
@@ -69,24 +70,24 @@ class InitPaymentRequestTest extends AbstractWirecardTest
 
         $billingInformation = BillingInformation::fromShippingInformation($shippingInformation)
             ->setConsumerEmail('test@test.com')
-            ->setConsumerBirthDate(\DateTime::createFromFormat('Y-m-d', '1970-01-01'));
-
+            ->setConsumerBirthDate(DateTime::createFromFormat('Y-m-d', '1970-01-01'));
+ 
+        /** @var InitPaymentRequest */
         $request = InitPaymentRequest::withBasket($basket)
-            ->addParam('paymentType', PaymentType::PayPal)
-            // Todo: set amount and currency automatically with setBasket()?
-            ->addParam('orderDescription', 'Some test order')
-            ->addParam('successUrl', 'http://www.example.com')
-            ->addParam('failureUrl', 'http://www.example.com')
-            ->addParam('cancelUrl', 'http://www.example.com')
-            ->addParam('serviceUrl', 'http://www.example.com')
-            ->addParam('confirmUrl', 'http://www.example.com')
-            ->addParam('consumerIpAddress', '127.0.0.1')
-            ->addParam('consumerUserAgent', 'Mozilla')
-            ;
+            ->setPaymentType(PaymentType::PayPal)
+            ->setOrderDescription("Some test order")
+            ->setSuccessUrl('http://www.example.com')
+            ->setFailureUrl('http://www.example.com')
+            ->setCancelUrl('http://www.example.com')
+            ->setServiceUrl('http://www.example.com')
+            ->setConfirmUrl('http://www.example.com')
+            ->setConsumerIpAddress('127.0.0.1')
+            ->setConsumerUserAgent('Mozilla')
+        ;
 
         $request->setConsumerBillingInformation($billingInformation);
         $request->setConsumerShippingInformation($shippingInformation);
-        $request->setBasket($basket);
+
         $request->setContext($this->getContext());
 
         $response = $request->createResponse($client->send($request->createHttpRequest()));

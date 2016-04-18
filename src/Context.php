@@ -2,6 +2,9 @@
 
 namespace Hochstrasser\Wirecard;
 
+use Hochstrasser\Wirecard\MessageFactory;
+use Hochstrasser\Wirecard\GuzzlePsrMessageFactory;
+
 class Context implements \Serializable
 {
     const PCI3 = 'pci3';
@@ -13,6 +16,7 @@ class Context implements \Serializable
     private $javascriptScriptVersion;
     private $userAgent = 'hochstrasser/wirecard';
     private $backendPassword;
+    private $messageFactory;
 
     /**
      * Constructor
@@ -30,48 +34,87 @@ class Context implements \Serializable
 
             $this->{$property} = $value;
         }
+
+        if (null === $this->messageFactory) {
+            $this->messageFactory = new GuzzlePsrMessageFactory();
+        }
     }
 
+    /**
+     * @return string
+     */
     function getCustomerId()
     {
         return $this->customerId;
     }
 
+    /**
+     * @return string
+     */
     function getSecret()
     {
         return $this->secret;
     }
 
+    /**
+     * @return string
+     */
     function getLanguage()
     {
         return $this->language;
     }
 
+    /**
+     * @return string
+     */
     function getShopId()
     {
         return $this->shopId;
     }
 
+    /**
+     * @return string
+     */
     function getJavascriptScriptVersion()
     {
         return $this->javascriptScriptVersion;
     }
 
+    /**
+     * @return string
+     */
     function getUserAgent()
     {
         return $this->userAgent;
     }
 
+    /**
+     * @return string
+     */
     function getBackendPassword()
     {
         return $this->backendPassword;
     }
 
+    /**
+     * @return MessageFactory
+     */
+    function getMessageFactory()
+    {
+        return $this->messageFactory;
+    }
+
+    /**
+     * @return string
+     */
     function serialize()
     {
         return serialize(get_object_vars($this));
     }
 
+    /**
+     * @return Context
+     */
     function unserialize($data)
     {
         foreach (unserialize($data) as $property => $value) {

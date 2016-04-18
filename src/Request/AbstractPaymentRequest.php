@@ -39,6 +39,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     }
 
     /**
+     * @param Basket $basket
      * @return AbstractPaymentRequest
      */
     static function withBasket(Basket $basket)
@@ -58,6 +59,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     }
 
     /**
+     * @param string $value
      * @return AbstractPaymentRequest
      */
     function setAmount($value)
@@ -66,6 +68,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     }
 
     /**
+     * @param string $value
      * @return AbstractPaymentRequest
      */
     function setCurrency($value)
@@ -74,6 +77,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     }
 
     /**
+     * @param string $value
      * @return AbstractPaymentRequest
      */
     function setOrderDescription($value)
@@ -82,6 +86,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     }
 
     /**
+     * @param string $value
      * @return AbstractPaymentRequest
      */
     function setSuccessUrl($value)

@@ -8,9 +8,6 @@ use Hochstrasser\Wirecard\Response\WirecardResponse;
 use Hochstrasser\Wirecard\Fingerprint;
 use Hochstrasser\Wirecard\Exception\RequiredParameterMissingException;
 
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7 as psr;
-
 abstract class AbstractWirecardRequest
     implements WirecardRequestInterface, \Serializable
 {
@@ -52,7 +49,14 @@ abstract class AbstractWirecardRequest
             'Content-Type' => 'application/x-www-form-urlencoded'
         ];
 
-        $body = psr\build_query($this->getRequestParameters());
+        $body = $this->buildQuery($this->getRequestParameters());
+
+        return $this->getContext()->getMessageFactory()->createRequest(
+            'POST',
+            $this->getEndpoint(),
+            $headers,
+            $body
+        );
 
         $httpRequest = new Request(
             'POST',
@@ -190,5 +194,54 @@ abstract class AbstractWirecardRequest
 
         $this->context = $data['context'];
         $this->parameters = $data['parameters'];
+    }
+
+    /**
+     * Build a query string from an array of key value pairs.
+     *
+     * This function can use the return value of parseQuery() to build a query
+     * string. This function does not modify the provided keys when an array is
+     * encountered (like http_build_query would).
+     *
+     * @param array     $params   Query string parameters.
+     * @param int|false $encoding Set to false to not encode, PHP_QUERY_RFC3986
+     *                            to encode using RFC3986, or PHP_QUERY_RFC1738
+     *                            to encode using RFC1738.
+     * @return string
+     */
+    protected function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986)
+    {
+        if (!$params) {
+            return '';
+        }
+        if ($encoding === false) {
+            $encoder = function ($str) { return $str; };
+        } elseif ($encoding == PHP_QUERY_RFC3986) {
+            $encoder = 'rawurlencode';
+        } elseif ($encoding == PHP_QUERY_RFC1738) {
+            $encoder = 'urlencode';
+        } else {
+            throw new \InvalidArgumentException('Invalid type');
+        }
+        $qs = '';
+        foreach ($params as $k => $v) {
+            $k = $encoder($k);
+            if (!is_array($v)) {
+                $qs .= $k;
+                if ($v !== null) {
+                    $qs .= '=' . $encoder($v);
+                }
+                $qs .= '&';
+            } else {
+                foreach ($v as $vv) {
+                    $qs .= $k;
+                    if ($vv !== null) {
+                        $qs .= '=' . $encoder($vv);
+                    }
+                    $qs .= '&';
+                }
+            }
+        }
+        return $qs ? (string) substr($qs, 0, -1) : '';
     }
 }

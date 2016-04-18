@@ -13,6 +13,9 @@ namespace Hochstrasser\Wirecard\Model\Common;
  */
 abstract class PaymentType
 {
+    /**
+     * @var array
+     */
     private static $constants;
 
     /**
@@ -48,11 +51,18 @@ abstract class PaymentType
     const TrustPay = 'TRUSTPAY';
     const MyVoucher = 'VOUCHER';
 
+    /**
+     * @param string $paymentType
+     * @return bool
+     */
     static function isValid($paymentType)
     {
         return in_array($paymentType, static::getValues(), true);
     }
 
+    /**
+     * @return array
+     */
     static function getValues()
     {
         if (null === static::$constants) {
