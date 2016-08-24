@@ -11,7 +11,7 @@ For general information about making payments with Wirecard in your application,
 
 Get an account for the Integration Wiki, by signing up on the Wiki’s signup page for free.
 
-[Integration Wiki]: http://integration.wirecard.at
+[Integration Wiki]: https://guides.wirecard.at/
 
 SDK Coverage:
 
@@ -61,7 +61,7 @@ The *Context* has some more options that you can pass to the constructor:
 2. `secret`: Your customer secret, which you got from Wirecard or the [Integration Wiki][]. Do not share this with anyone
 3. `language`: Language of Wirecard’s UIs and error messages
 4. `shop_id` (Optional): Set this if one set of credentials is used for many shops (if Wirecard tells you to)
-5. `javascript_script_version` (Optional): Enable [PCI DSS SAQ A compliance features](https://integration.wirecard.at/doku.php/wcs:pci3_fallback:start)
+5. `javascript_script_version` (Optional): Enable [PCI DSS SAQ A compliance features](https://guides.wirecard.at/wcs:pci3_fallback)
 6. `user_agent` (Optional): Library user agent used for HTTP requests, you can optionally set this to your site’s name
 
 ### SDK Patterns
@@ -201,7 +201,7 @@ $request = InitCheckoutPageRequest::with()
 
 Another major difference of Checkout Page is, that the `successUrl` receives all payment response parameters as a POST request, just like the `confirmUrl`. The `confirmUrl` can additionally be set to receive the parameters independent of user actions, for you to record for reference.
 
-You can find out more about this here: [Receiving the Results of the Payment Process in your Online Shop](https://integration.wirecard.at/doku.php/wcp:integration#receiving_the_results_of_the_payment_process_in_your_online_shop)
+You can find out more about this here: [Receiving the Results of the Payment Process in your Online Shop](https://guides.wirecard.at/wcp:integration#receiving_the_payment_process_result)
 
 ### Wirecard Seamless Checkout
 
@@ -284,7 +284,7 @@ Requests the payment and returns a redirect URL. Redirect your customer to this 
 
 These parameters can be either set with the `addParam` method on the request object, or with their respective `set*` method, e.g. `setSuccessUrl`.
 
-There are a lot more optional parameters for payment requests, to e.g. make recurring payments, set the statement which is displayed on the credit card bill, and more. Look at the [Documentation about Request Parameters](https://integration.wirecard.at/doku.php/request_parameters) for more information.
+There are a lot more optional parameters for payment requests, to e.g. make recurring payments, set the statement which is displayed on the credit card bill, and more. Look at the [Documentation about Request Parameters](https://guides.wirecard.at/request_parameters) for more information.
 
 ##### Adding a Basket
 
