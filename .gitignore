@@ -5,3 +5,4 @@ vendor
 /.tags*
 /.tern-project
 /phpunit.xml
+/.idea/
