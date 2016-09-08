@@ -45,4 +45,29 @@ class FingerprintTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, (string) $fingerprint);
     }
+
+    public function testFromResponseParametersTakesSecretFromContextWithHmac()
+    {
+        $context = new Context([
+            'secret' => 'secret',
+            'hashingMethod' => Context::HASHING_HMAC,
+        ]);
+
+        $message = [
+            'foo' => 'foo',
+            'bar' => 'bar',
+            'responseFingerprintOrder' => 'foo,bar,secret,responseFingerprintOrder',
+        ];
+
+        $expected = hash_hmac('sha512',
+            $message['foo']
+            . $message['bar']
+            . $context->getSecret()
+            . $message['responseFingerprintOrder'],
+            $context->getSecret());
+
+        $fingerprint = Fingerprint::fromResponseParameters($message, $context);
+
+        $this->assertEquals($expected, (string)$fingerprint);
+    }
 }
