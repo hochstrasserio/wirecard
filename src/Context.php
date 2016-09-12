@@ -2,12 +2,20 @@
 
 namespace Hochstrasser\Wirecard;
 
+use Hochstrasser\Wirecard\Exception\InvalidHashingMethodException;
 use Hochstrasser\Wirecard\MessageFactory;
 use Hochstrasser\Wirecard\GuzzlePsrMessageFactory;
 
 class Context implements \Serializable
 {
     const PCI3 = 'pci3';
+    const HASHING_SHA = 'sha512';
+    const HASHING_HMAC = 'hmac-sha512';
+
+    private $validHashingMethods = [
+        self::HASHING_SHA,
+        self::HASHING_HMAC,
+    ];
 
     private $customerId;
     private $secret;
@@ -17,6 +25,7 @@ class Context implements \Serializable
     private $userAgent = 'hochstrasser/wirecard';
     private $backendPassword;
     private $messageFactory;
+    private $hashingMethod = self::HASHING_SHA;
 
     /**
      * Constructor
@@ -30,6 +39,14 @@ class Context implements \Serializable
 
             if (!property_exists($this, $property)) {
                 throw new \InvalidArgumentException(sprintf('Option %s is not defined', $option));
+            }
+
+            if ('hashingMethod' === $property && !in_array($value, $this->validHashingMethods)) {
+                throw new InvalidHashingMethodException(
+                    sprintf('Valid hashing methods are: %s; provided value: %s.',
+                        implode(', ', $this->validHashingMethods),
+                        $value)
+                );
             }
 
             $this->{$property} = $value;
@@ -102,6 +119,14 @@ class Context implements \Serializable
     function getMessageFactory()
     {
         return $this->messageFactory;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashingMethod()
+    {
+        return $this->hashingMethod;
     }
 
     /**

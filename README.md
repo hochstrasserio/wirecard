@@ -51,7 +51,8 @@ $context = new Context([
     'customer_id' => 'D200001',
     'secret' => 'B8AKTPWBRMNBV455FG6M2DANE99WU2',
     'language' => 'de',
-    'shop_id' => 'qmore'
+    'shop_id' => 'qmore',
+    'hashing_method' => Context::HASHING_HMAC,
 ]);
 ```
 
@@ -63,6 +64,7 @@ The *Context* has some more options that you can pass to the constructor:
 4. `shop_id` (Optional): Set this if one set of credentials is used for many shops (if Wirecard tells you to)
 5. `javascript_script_version` (Optional): Enable [PCI DSS SAQ A compliance features](https://guides.wirecard.at/wcs:pci3_fallback)
 6. `user_agent` (Optional): Library user agent used for HTTP requests, you can optionally set this to your site’s name
+7. `hashing_method` (Optional): The used method for computing the fingerprint hash. If omitted, the old method `Context::HASHING_SHA` is used for compatibility reasons. New Wirecard customers should use `Context::HASHING_HMAC`, as it is the current Wirecard default. The demo customer still uses `Context::HASHING_SHA`, though.
 
 ### SDK Patterns
 

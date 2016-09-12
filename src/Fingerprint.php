@@ -37,11 +37,11 @@ class Fingerprint
     /**
      * Create a fingerprint based on received response paramaters
      *
-     * @param array $parameters
+     * @param array   $parameters
      * @param Context $context
      * @return Fingerprint
      */
-    static function fromResponseParameters(array $parameters, Context $context = null)
+    public static function fromResponseParameters(array $parameters, Context $context = null)
     {
         if (empty($parameters['responseFingerprintOrder'])) {
             throw new \UnexpectedValueException('The responseFingerprintOrder parameter is missing');
@@ -63,7 +63,7 @@ class Fingerprint
      * @param Context $context
      * @return Fingerprint
      */
-    function setContext(Context $context)
+    public function setContext(Context $context)
     {
         $this->context = $context;
 
@@ -80,16 +80,17 @@ class Fingerprint
      * @param array $fingerprintOrder List of parameter names
      * @return Fingerprint
      */
-    function setFingerprintOrder(array $fingerprintOrder)
+    public function setFingerprintOrder(array $fingerprintOrder)
     {
         $this->fingerprintOrder = $fingerprintOrder;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    function __toString()
+    public function __toString()
     {
         $raw = '';
 
@@ -97,6 +98,10 @@ class Fingerprint
             if (isset($this->parameters[$parameter])) {
                 $raw .= $this->parameters[$parameter];
             }
+        }
+
+        if (null !== $this->context && Context::HASHING_HMAC === $this->context->getHashingMethod()) {
+            return hash_hmac('sha512', $raw, $this->parameters['secret']);
         }
 
         return hash('sha512', $raw);
