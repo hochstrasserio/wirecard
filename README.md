@@ -93,7 +93,7 @@ It may seem a bit cumbersome, but it has the big benefit of freeing you of any i
 
 #### Using the WirecardHelper
 
-There’s a small utility included, the `WirecardHelper` which safes you a couple of lines everytime you make a request. Initialize with the context and send the request with a configured client.
+There’s a small utility included, the `WirecardHelper` which saves you a couple of lines every time you make a request. Initialize with the context and send the request with a configured client.
 
 You pass it two things: the Wirecard context and a function to send a `Psr\Http\Message\RequestInterface` over the wire which returns a `Psr\Http\Message\ResponseInterface`.
 
