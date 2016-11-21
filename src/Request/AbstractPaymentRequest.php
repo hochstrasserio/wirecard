@@ -31,7 +31,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     protected $resultClass = 'Hochstrasser\Wirecard\Model\Seamless\Frontend\InitPaymentResult';
 
     /**
-     * @return AbstractPaymentRequest
+     * @return static
      */
     static function with()
     {
@@ -40,7 +40,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
 
     /**
      * @param Basket $basket
-     * @return AbstractPaymentRequest
+     * @return static
      */
     static function withBasket(Basket $basket)
     {
