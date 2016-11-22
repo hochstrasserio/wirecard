@@ -43,17 +43,21 @@ class InitPaymentRequestTest extends AbstractWirecardTest
         $basket->setCurrency('EUR');
         $basket->addItem((new BasketItem)
             ->setArticleNumber('A001')
-            ->setDescription('Product A1')
+            ->setName('Product A1')
             ->setQuantity(1)
-            ->setUnitPrice('10.00')
-            ->setTax('2.00')
+            ->setUnitGrossAmount('11.00')
+            ->setUnitNetAmount('10.00')
+            ->setUnitTaxAmount('1.00')
+            ->setUnitTaxRate('10')
         );
         $basket->addItem((new BasketItem)
             ->setArticleNumber('SHIPPING')
-            ->setDescription('Shipping')
+            ->setName('Shipping')
             ->setQuantity(1)
-            ->setUnitPrice('5.00')
-            ->setTax('1.00')
+            ->setUnitGrossAmount('5.00')
+            ->setUnitNetAmount('5.00')
+            ->setUnitTaxAmount('0')
+            ->setUnitTaxRate('0')
         );
 
         $shippingInformation = (new ShippingInformation)
