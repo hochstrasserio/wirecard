@@ -16,7 +16,7 @@ class Basket extends Model
      */
     function setAmount($amount)
     {
-        return $this->addParam('basketAmount', $amount);
+        return $this->addParam('amount', $amount);
     }
 
     /**
@@ -26,7 +26,7 @@ class Basket extends Model
      */
     function getAmount()
     {
-        return $this->getParam('basketAmount');
+        return $this->getParam('amount');
     }
 
     /**
@@ -37,7 +37,7 @@ class Basket extends Model
      */
     function setCurrency($currency)
     {
-        return $this->addParam('basketCurrency', $currency);
+        return $this->addParam('currency', $currency);
     }
 
     /**
@@ -47,7 +47,7 @@ class Basket extends Model
      */
     function getCurrency()
     {
-        return $this->getParam('basketCurrency');
+        return $this->getParam('currency');
     }
 
     /**

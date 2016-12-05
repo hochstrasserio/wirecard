@@ -26,6 +26,25 @@ class BasketItem extends Model
     }
 
     /**
+     * Set the item's name
+     *
+     * @param string $name
+     * @return BasketItem
+     */
+    function setName($name)
+    {
+        return $this->addParam('name', $name);
+    }
+
+    /**
+     * @return string
+     */
+    function getName()
+    {
+        return $this->getParam('name');
+    }
+
+    /**
      * Set the item description, typically a product name
      *
      * @param string $description
@@ -64,40 +83,78 @@ class BasketItem extends Model
     }
 
     /**
-     * Set item tax amount as string, formatted as float, e.g. "12.50"
+     * Set item tax amount as string, formatted as float, e.g. "2.50"
      *
      * @param string $amount
      * @return BasketItem
      */
-    function setTax($amount)
+    function setUnitTaxAmount($amount)
     {
-        return $this->addParam('tax', $amount);
+        return $this->addParam('unitTaxAmount', $amount);
     }
 
     /**
      * @return string
      */
-    function getTax()
+    function getUnitTaxAmount()
     {
-        return $this->getParam('tax');
+        return $this->getParam('unitTaxAmount');
     }
 
     /**
-     * Set item cost as string, formatted as float, e.g. "12.50"
+     * Set item tax rate as string, formatted as float, e.g. "25"
      *
-     * @param string $amount
+     * @param string $rate
      * @return BasketItem
      */
-    function setUnitPrice($amount)
+    function setUnitTaxRate($rate)
     {
-        return $this->addParam('unitPrice', $amount);
+        return $this->addParam('unitTaxRate', $rate);
     }
 
     /**
      * @return string
      */
-    function getUnitPrice()
+    function getUnitTaxRate()
     {
-        return $this->getParam('unitPrice');
+        return $this->getParam('unitTaxRate');
+    }
+
+    /**
+     * Set item gross amount as string, formatted as float, e.g. "12.50"
+     *
+     * @param string $amount
+     * @return BasketItem
+     */
+    function setUnitGrossAmount($amount)
+    {
+        return $this->addParam('unitGrossAmount', $amount);
+    }
+
+    /**
+     * @return string
+     */
+    function getUnitGrossAmount()
+    {
+        return $this->getParam('unitGrossAmount');
+    }
+
+    /**
+     * Set item net amount as string, formatted as float, e.g. "10.00"
+     *
+     * @param string $amount
+     * @return BasketItem
+     */
+    function setUnitNetAmount($amount)
+    {
+        return $this->addParam('unitNetAmount', $amount);
+    }
+
+    /**
+     * @return string
+     */
+    function getUnitNetAmount()
+    {
+        return $this->getParam('unitNetAmount');
     }
 }
