@@ -19,6 +19,7 @@ abstract class AbstractWirecardTest extends \PHPUnit_Framework_TestCase
             'language' => 'de',
             'shop_id' => $_SERVER['SHOP_ID'],
             'backend_password' => $_SERVER['BACKEND_PASSWORD'],
+            'hashing_method' => Context::HASHING_HMAC,
         ]);
     }
 
