@@ -251,7 +251,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
      */
     function setRiskSuppress($value)
     {
-        return $this->addParam('riskSuppress', $value ? 1 : 0);
+        return $this->addParam('riskSuppress', $value ? 'yes' : 'no');
     }
 
     /**
