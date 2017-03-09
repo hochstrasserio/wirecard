@@ -9,6 +9,7 @@ class RecurPaymentRequest extends AbstractBackendRequest
     protected $fingerprintOrder = [
         'orderNumber', 'sourceOrderNumber', 'autoDeposit', 'orderDescription',
         'amount', 'currency', 'orderReference', 'customerStatement',
+	    'mandateId', 'mandateSignatureDate', 'creditorId', 'dueDate', 'transactionIdentifier', 'useIbanBic'
     ];
     // protected $resultClass = 'Hochstrasser\Wirecard\Model\Seamless\Frontend\DataStorageInitResult';
 
