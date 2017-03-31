@@ -37,6 +37,11 @@ abstract class AbstractWirecardRequest
         return $this->endpoint;
     }
 
+    function setEndpoint($endpoint)
+    {
+        return $this->endpoint = $endpoint;
+    }
+
     /**
      * Converts the request to a PSR-7 RequestInterface
      *
