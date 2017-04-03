@@ -19,9 +19,9 @@ interface WirecardRequestInterface
     /**
      * Returns the URL of the API endpoint
      *
-     * @return void
+     * @return string
      */
-    function setEndpoint();
+    function setEndpoint(String $endpoint);
 
     /**
      * Set the context, which contains global API settings

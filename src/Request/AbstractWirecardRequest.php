@@ -37,7 +37,7 @@ abstract class AbstractWirecardRequest
         return $this->endpoint;
     }
 
-    function setEndpoint($endpoint)
+    function setEndpoint(String $endpoint)
     {
         return $this->endpoint = $endpoint;
     }
