@@ -37,7 +37,10 @@ abstract class AbstractWirecardRequest
         return $this->endpoint;
     }
 
-    function setEndpoint(String $endpoint)
+    /**
+     * {@inheritDoc}
+     */
+    function setEndpoint($endpoint)
     {
         return $this->endpoint = $endpoint;
     }
