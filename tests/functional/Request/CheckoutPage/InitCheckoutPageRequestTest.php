@@ -20,4 +20,21 @@ class InitCheckoutPageRequestTest extends AbstractWirecardTest
             ->setFailureUrl('http://localhost')
             ->setServiceUrl('http://localhost')->createHttpRequest());
     }
+
+    function testSetEndpoint()
+    {
+        $checkoutRequest = InitCheckoutPageRequest::with()
+            ->setAmount(10.00)
+            ->setCurrency('EUR')
+            ->setSuccessUrl('http://localhost')
+            ->setCancelUrl('http://localhost')
+            ->setFailureUrl('http://localhost')
+            ->setServiceUrl('http://localhost');
+
+        $newEndpoint = "http://sandbox.wirecard.com";
+        $this->assertFalse($newEndpoint == $checkoutRequest->getEndpoint());
+
+        $checkoutRequest->setEndpoint($newEndpoint);
+        $this->assertTrue($newEndpoint == $checkoutRequest->getEndpoint());
+    }
 }
