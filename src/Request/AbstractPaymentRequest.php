@@ -187,7 +187,10 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
      */
     function setDuplicateRequestCheck($value)
     {
-        return $this->addParam('duplicateRequestCheck', $value ? 'yes' : 'no');
+        if ($value) {
+            return $this->addParam('duplicateRequestCheck', 'yes');
+        }
+        return $this;
     }
 
     /**
