@@ -9,11 +9,7 @@ use Hochstrasser\Wirecard\Fingerprint;
 abstract class AbstractBackendRequest extends AbstractWirecardRequest
 {
     protected $operation;
-
-    function getEndpoint()
-    {
-        return 'https://checkout.wirecard.com/page/toolkit.php';
-    }
+    protected $endpoint = 'https://checkout.wirecard.com/page/toolkit.php';
 
     function createResponse(\Psr\Http\Message\ResponseInterface $response)
     {

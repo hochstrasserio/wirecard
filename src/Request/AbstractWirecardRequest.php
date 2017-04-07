@@ -38,6 +38,14 @@ abstract class AbstractWirecardRequest
     }
 
     /**
+     * {@inheritDoc}
+     */
+    function setEndpoint($endpoint)
+    {
+        return $this->endpoint = $endpoint;
+    }
+
+    /**
      * Converts the request to a PSR-7 RequestInterface
      *
      * @return \Psr\Http\Message\RequestInterface
