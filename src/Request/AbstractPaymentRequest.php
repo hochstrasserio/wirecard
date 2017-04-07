@@ -153,6 +153,14 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
     /**
      * @return AbstractPaymentRequest
      */
+    function setImageUrl($value)
+    {
+        return $this->addParam('imageUrl', $value);
+    }
+
+    /**
+     * @return AbstractPaymentRequest
+     */
     function setNoScriptInfoUrl($value)
     {
         return $this->addParam('noScriptInfoUrl', $value);
