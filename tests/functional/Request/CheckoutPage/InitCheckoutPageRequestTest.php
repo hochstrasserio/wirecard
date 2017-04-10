@@ -37,4 +37,26 @@ class InitCheckoutPageRequestTest extends AbstractWirecardTest
         $checkoutRequest->setEndpoint($newEndpoint);
         $this->assertTrue($newEndpoint == $checkoutRequest->getEndpoint());
     }
+
+    function testDuplicateRequestCheckSet()
+    {
+        $checkoutRequest = InitCheckoutPageRequest::with()
+            ->setAmount(10.00)
+            ->setCurrency('EUR')
+            ->setSuccessUrl('http://localhost')
+            ->setCancelUrl('http://localhost')
+            ->setFailureUrl('http://localhost')
+            ->setDuplicateRequestCheck(true);
+
+        $this->assertTrue('yes' == $checkoutRequest->getParam('duplicateRequestCheck'));
+
+        $checkoutRequestWithoutDupes = InitCheckoutPageRequest::with()
+            ->setAmount(10.00)
+            ->setCurrency('EUR')
+            ->setSuccessUrl('http://localhost')
+            ->setCancelUrl('http://localhost')
+            ->setFailureUrl('http://localhost')
+            ->setDuplicateRequestCheck(false);
+        $this->assertTrue(null == $checkoutRequestWithoutDupes->getParam('duplicateRequestCheck'));
+    }
 }
