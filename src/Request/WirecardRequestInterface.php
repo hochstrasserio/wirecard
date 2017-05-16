@@ -3,6 +3,7 @@
 namespace Hochstrasser\Wirecard\Request;
 
 use Hochstrasser\Wirecard\Context;
+use Hochstrasser\Wirecard\Response\WirecardResponseInterface;
 
 /**
  * Interface for all API requests
@@ -49,7 +50,7 @@ interface WirecardRequestInterface
     /**
      * Converts the API request object to a PSR-7 compatible request
      *
-     * @return Psr\Http\Message\RequestInterface
+     * @return \Psr\Http\Message\RequestInterface
      */
     function createHttpRequest();
 
