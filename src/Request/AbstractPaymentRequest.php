@@ -9,7 +9,10 @@ use Hochstrasser\Wirecard\Model\Common\BillingInformation;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7;
 
-class AbstractPaymentRequest extends AbstractWirecardRequest
+/**
+ * Base class for all payment requests
+ */
+abstract class AbstractPaymentRequest extends AbstractWirecardRequest
 {
     /**
      * Transaction identifier for a single, non-recurring transaction
