@@ -14,7 +14,7 @@ class RefundReversalRequest extends AbstractBackendRequest
         return (new static())
             ->setOrderNumber($orderNumber)
             ->setCreditNumber($creditNumber)
-            ;
+        ;
     }
 
     /**
@@ -34,7 +34,7 @@ class RefundReversalRequest extends AbstractBackendRequest
      * @param string $creditNumber
      * @return RefundReversalRequest
      */
-    function setOrderNumber($creditNumber)
+    function setCreditNumber($creditNumber)
     {
         return $this->addParam('creditNumber', $creditNumber);
     }
