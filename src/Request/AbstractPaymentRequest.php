@@ -301,7 +301,7 @@ class AbstractPaymentRequest extends AbstractWirecardRequest
      * Adds the basket to the payment, required for some payment methods
      *
      * @param Basket $basket
-     * @return InitPaymentRequest
+     * @return self
      */
     function setBasket(Basket $basket)
     {
