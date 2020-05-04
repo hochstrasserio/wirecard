@@ -1,3 +1,9 @@
+# ⚠️ IMPORTANT
+
+Starting with September 30, 2020 Wirecard the methods used by this SDK are no longer supported by Wirecard.
+
+This repository is therefore archived and is no longer maintained. You're free to fork this code under the terms of the license.
+
 # Wirecard
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
